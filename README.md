@@ -1,4 +1,4 @@
-# CS2340C_Team16
+# CS 2340 Fall 2024 Repository
 
 Rohan Kansal
 Ishaan Reddy
