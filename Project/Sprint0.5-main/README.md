@@ -4,3 +4,4 @@ Rohan Kansal
 Ishaan Reddy
 Sowmiyan Nattamai
 Rishi Raina
+Adinay Khatri
