@@ -1,4 +1,9 @@
 package com.example.travelapplication.viewmodel;
 
-public class MainViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class MainViewModel extends ViewModel {
+    public MainViewModel(){
+
+    }
 }
