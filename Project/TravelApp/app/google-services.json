@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "439826832909",
+    "project_id": "cs2340-wandersync-team16",
+    "storage_bucket": "cs2340-wandersync-team16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439826832909:android:596c0e5db8049b16293f44",
+        "android_client_info": {
+          "package_name": "com.example.travelapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-DujT5Z5uUX19dCoaGJ5Frg816D-lPOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
