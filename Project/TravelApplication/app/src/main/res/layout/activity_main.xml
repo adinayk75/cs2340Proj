@@ -8,12 +8,52 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Welcome to"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.342" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wandersync!"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:fontFamily="serif"
+        android:textFontWeight="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.46"
+        />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Start"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="442dp" />
+
+    <Button
+        android:id="@+id/quitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startButton"
+        android:layout_centerHorizontal="true"
+        android:text="Quit"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="527dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
