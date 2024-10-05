@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.databinding.library.baseAdapters.BR;
+//import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.ViewModelProvider;
+
+//importing the binding class
+import com.example.travelapplication.BR;
+
 import com.example.travelapplication.viewmodel.MainViewModel;
 
 import com.example.travelapplication.R;
