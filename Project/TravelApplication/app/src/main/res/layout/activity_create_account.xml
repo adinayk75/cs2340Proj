@@ -32,7 +32,7 @@
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/createUsername"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -42,7 +42,7 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/createPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -60,6 +60,12 @@
             android:text="Sign Up"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/black"/>
+
+        <TextView
+            android:id="@+id/disclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:text="Password must have atleast 6 letters" />
 
     </LinearLayout>
 
@@ -85,5 +91,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayoutCreate"
         app:layout_constraintVertical_bias="0.825" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
