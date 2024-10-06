@@ -20,6 +20,7 @@ import com.example.travelapplication.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private Button startButton;
+    private Button quitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,5 +47,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Quit button -> exits the app
+        quitButton = findViewById(R.id.quitButton);
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                System.exit(0);
+            }
+        });
+
     }
 }
