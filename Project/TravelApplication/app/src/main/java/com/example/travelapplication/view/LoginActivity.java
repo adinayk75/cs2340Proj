@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.travelapplication.R;
 
 public class LoginActivity extends AppCompatActivity {
-    private Button createAccountButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Create Account Button -> Create Account Page
-        createAccountButton=findViewById(R.id.createAccountButton);
+        Button createAccountButton = findViewById(R.id.createAccountButton);
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,5 +37,30 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText usernameEditText = findViewById(R.id.username);
+                EditText passwordEditText = findViewById(R.id.password);
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                // Perform login logic here
+                if (username.equals("admin") && password.equals("admin")) {
+
+                    // Login successful, display message and navigate to MainActivity
+                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    // Navigate to the Dashboard
+                    Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                    startActivity(intent);
+                } else {
+                    // Login failed, display error message
+                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 }
