@@ -60,7 +60,6 @@
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/black"/>
 
-
     </LinearLayout>
 
     <TextView
