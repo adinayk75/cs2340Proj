@@ -37,7 +37,7 @@
             android:layout_height="50dp"
             android:drawableStart="@drawable/baseline_person_24"
             android:drawablePadding="8dp"
-            android:hint="Username"
+            android:hint="@string/username"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
