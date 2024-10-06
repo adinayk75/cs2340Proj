@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
         // Start button -> Log in page
         startButton=findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
