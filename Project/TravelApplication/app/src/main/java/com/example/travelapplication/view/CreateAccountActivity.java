@@ -4,10 +4,8 @@ package com.example.travelapplication.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,15 +25,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class CreateAccountActivity extends AppCompatActivity {
-    private Button backToLoginButton, registerButton;
-    private TextInputEditText editTextUsername, editTextPassword;
+    private Button backToLoginButton;
+    private Button registerButton;
+    private TextInputEditText editTextUsername;
+    private TextInputEditText editTextPassword;
     private FirebaseAuth mAuth;
     @Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Toast.makeText(CreateAccountActivity.this, "Already Logged!", Toast.LENGTH_SHORT).show();
+        if (currentUser != null) {
+            Toast.makeText(CreateAccountActivity.this, "Already Logged", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -51,7 +51,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
 
         // Login -> Login page button
-        backToLoginButton=findViewById(R.id.loginCreateButton);
+        backToLoginButton = findViewById(R.id.loginCreateButton);
         backToLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,19 +71,22 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String username, password;
+                String username;
+                String password;
 
                 username = String.valueOf(editTextUsername.getText()) + "@travelista.com";
                 password = String.valueOf(editTextPassword.getText());
 
 
                 if (TextUtils.isEmpty(username)) {
-                    Toast.makeText(CreateAccountActivity.this, "Enter Username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateAccountActivity.this, "Enter Username",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(CreateAccountActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateAccountActivity.this, "Enter Password",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -94,8 +97,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Toast.makeText(CreateAccountActivity.this, "Account Created.",
                                         Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(CreateAccountActivity.this, Destination.class);
+                                Intent intent = new Intent(CreateAccountActivity.this,
+                                        Destination.class);
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -106,10 +109,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         }
                     }
                 );
-
-
             }
         });
-
     }
 }

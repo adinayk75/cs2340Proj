@@ -16,9 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.travelapplication.BR;
 
 import com.example.travelapplication.R;
-import com.example.travelapplication.databinding.ActivityMainBinding;
 import com.example.travelapplication.databinding.ActivitySplashBinding;
-import com.example.travelapplication.viewmodel.MainViewModel;
 import com.example.travelapplication.viewmodel.SplashViewModel;
 
 public class SplashActivity extends AppCompatActivity {
