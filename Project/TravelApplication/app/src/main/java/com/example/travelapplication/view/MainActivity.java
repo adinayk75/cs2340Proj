@@ -20,7 +20,6 @@ import com.example.travelapplication.viewmodel.MainViewModel;
 
 import com.example.travelapplication.R;
 import com.example.travelapplication.databinding.ActivityMainBinding;
-import com.example.travelapplication.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private Button startButton;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Start button -> Log in page
-        startButton=findViewById(R.id.startButton);
+        startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

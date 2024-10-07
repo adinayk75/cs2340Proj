@@ -16,9 +16,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Destination extends AppCompatActivity {
-    FirebaseAuth auth;
-    Button logoutButton;
-    FirebaseUser user;
+    private FirebaseAuth auth;
+    private Button logoutButton;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

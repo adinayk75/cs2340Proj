@@ -24,7 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    private TextInputEditText editTextUsername, editTextPassword;
+    private TextInputEditText editTextUsername;
+    private TextInputEditText editTextPassword;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
 
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, Destination.class);
             startActivity(intent);
             finish();
@@ -71,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String username, password;
+                String username;
+                String password;
                 username = String.valueOf(editTextUsername.getText()) + "@travelista.com";
                 password = String.valueOf(editTextPassword.getText());
 
@@ -91,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
 
-                                    Intent intent = new Intent(LoginActivity.this, Destination.class);
+                                    Intent intent = new Intent(LoginActivity.this,
+                                            Destination.class);
                                     startActivity(intent);
                                     finish();
 
@@ -120,13 +123,15 @@ public class LoginActivity extends AppCompatActivity {
                 if (username.equals("admin") && password.equals("admin")) {
 
                     // Login successful, display message and navigate to MainActivity
-                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login successful",
+                    Toast.LENGTH_SHORT).show();
                     // Navigate to the Dashboard
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     startActivity(intent);
                 } else {
                     // Login failed, display error message
-                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid username or password",
+                    Toast.LENGTH_SHORT).show();
                 }
             }
         });
