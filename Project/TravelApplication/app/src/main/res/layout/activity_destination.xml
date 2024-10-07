@@ -8,8 +8,22 @@
     tools:context=".view.Destination">
 
     <Button
-        android:text="LOGOUT"
         android:id="@+id/logout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:text="LOGOUT"
+        tools:layout_editor_absoluteX="307dp"
+        tools:layout_editor_absoluteY="589dp" />
+
+    <TextView
+        android:id="@+id/DestinationsScreenText"
+        android:layout_width="410dp"
+        android:layout_height="94dp"
+        android:text="Destinations"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="2dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
