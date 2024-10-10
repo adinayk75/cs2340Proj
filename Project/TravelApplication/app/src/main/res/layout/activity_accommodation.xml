@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Transportation">
+    tools:context=".view.Accommodation">
 
     <TextView
         android:id="@+id/textView3"
@@ -15,11 +15,12 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="105dp"
         android:layout_marginBottom="639dp"
-        android:text="Transportation"
+        android:text="Accommodation"
         android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
