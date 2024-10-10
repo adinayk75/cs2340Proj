@@ -5,17 +5,22 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Destination">
+    tools:context=".view.Travel">
 
     <TextView
-        android:id="@+id/TravelCommunityScreenText"
-        android:layout_width="410dp"
-        android:layout_height="94dp"
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="639dp"
         android:text="Travel Community"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="36sp"
+        android:textSize="30dp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="2dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
