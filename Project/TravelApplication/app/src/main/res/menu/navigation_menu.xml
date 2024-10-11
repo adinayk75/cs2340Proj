@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
-      android:id="@+id/logistics"
-      android:icon="@drawable/baseline_checklist_24"
-      android:title="Logistics"/>
-  <item
       android:id="@+id/destination"
       android:icon="@drawable/baseline_location_on_24"
       android:title="Destination"/>
