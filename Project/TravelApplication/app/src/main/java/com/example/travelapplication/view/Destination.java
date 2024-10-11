@@ -5,17 +5,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.travelapplication.R;
-import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,17 +22,12 @@ public class Destination extends AppCompatActivity {
     private Button logoutButton;
     private FirebaseUser user;
 
-
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_destination);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.destination), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -47,7 +40,6 @@ public class Destination extends AppCompatActivity {
         if (user == null) {
             Intent intent = new Intent(Destination.this, LoginActivity.class);
             startActivity(intent);
-            finish();
         }
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -60,16 +52,16 @@ public class Destination extends AppCompatActivity {
             }
         });
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        // Navigation Bar
 
+        BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                if (id == R.id.logistics) {
-                    Intent intent = new Intent(Destination.this, Logistics.class);
+                if (id == R.id.destination) {
+                    Intent intent = new Intent(Destination.this, Destination.class);
                     startActivity(intent);
                 }
                 if (id == R.id.dining) {
@@ -88,10 +80,9 @@ public class Destination extends AppCompatActivity {
                     Intent intent = new Intent(Destination.this, Travel.class);
                     startActivity(intent);
                 }
+
                 return false;
             }
         });
-
-
     }
 }
