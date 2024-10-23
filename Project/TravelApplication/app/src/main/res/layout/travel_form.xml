@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/travel_form"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/travelLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Travel Location"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/estimatedStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/travelLocation"
+        android:hint="Estimated Start"
+        android:inputType="datetime"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/estimatedEnd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/estimatedStart"
+        android:hint="Estimated End"
+        android:inputType="datetime"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/estimatedEnd"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="0dp"
+        android:text="Cancel"
+        android:textSize="22dp" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/estimatedEnd"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toRightOf="@+id/cancelButton"
+        android:text="Submit"
+        android:textSize="22dp" />
+
+</RelativeLayout>
