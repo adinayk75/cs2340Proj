@@ -1,5 +1,6 @@
 package com.example.travelapplication.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +22,13 @@ public class Destination extends AppCompatActivity {
     private FirebaseAuth auth;
     private Button logoutButton;
     private FirebaseUser user;
+    private Button logTravelButton;
+
+    private void showTravelForm() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.travel_form);
+        dialog.show();
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,7 @@ public class Destination extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         logoutButton = findViewById(R.id.logout);
+        logTravelButton = findViewById(R.id.logTravelButton);
 
         user = auth.getCurrentUser();
         if (user == null) {
@@ -54,6 +63,12 @@ public class Destination extends AppCompatActivity {
             }
         });
 
+        logTravelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showTravelForm();
+            }
+        });
         // Navigation Bar
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
