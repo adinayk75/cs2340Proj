@@ -21,8 +21,8 @@
       android:title="Transportation"
       android:checkable="true"/>
   <item
-      android:id="@+id/travel"
-      android:icon="@drawable/baseline_local_airport_24"
-      android:title="Travel Community"
+      android:id="@+id/logistics"
+      android:icon="@drawable/baseline_analytics_24"
+      android:title="Logistics"
       android:checkable="true"/>
 </menu>

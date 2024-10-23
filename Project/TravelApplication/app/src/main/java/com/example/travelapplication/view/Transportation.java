@@ -47,8 +47,8 @@ public class Transportation extends AppCompatActivity {
                 } else if (id == R.id.transportation) {
                     Intent intent = new Intent(Transportation.this, Transportation.class);
                     startActivity(intent);
-                } else if (id == R.id.travel) {
-                    Intent intent = new Intent(Transportation.this, Travel.class);
+                } else if (id == R.id.logistics) {
+                    Intent intent = new Intent(Transportation.this, Logistics.class);
                     startActivity(intent);
                 }
 
