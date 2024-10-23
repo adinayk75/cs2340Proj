@@ -21,6 +21,8 @@ public class Accommodation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_accommodation);
+        BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
+        navigationView.setSelectedItemId(R.id.accommodation);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.accommodation), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -29,8 +31,6 @@ public class Accommodation extends AppCompatActivity {
 
         // Navigation Bar
 
-        BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
-
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -38,25 +38,21 @@ public class Accommodation extends AppCompatActivity {
                 if (id == R.id.destination) {
                     Intent intent = new Intent(Accommodation.this, Destination.class);
                     startActivity(intent);
-                }
-                if (id == R.id.dining) {
+                } else if (id == R.id.dining) {
                     Intent intent = new Intent(Accommodation.this, Dining.class);
                     startActivity(intent);
-                }
-                if (id == R.id.accommodation) {
+                } else if (id == R.id.accommodation) {
                     Intent intent = new Intent(Accommodation.this, Accommodation.class);
                     startActivity(intent);
-                }
-                if (id == R.id.transportation) {
+                } else if (id == R.id.transportation) {
                     Intent intent = new Intent(Accommodation.this, Transportation.class);
                     startActivity(intent);
-                }
-                if (id == R.id.travel) {
+                } else if (id == R.id.travel) {
                     Intent intent = new Intent(Accommodation.this, Travel.class);
                     startActivity(intent);
                 }
 
-                return false;
+                return true;
             }
         });
     }

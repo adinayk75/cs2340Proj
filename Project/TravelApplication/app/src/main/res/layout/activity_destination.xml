@@ -39,8 +39,9 @@
         android:elevation="2dp"
         app:menu="@menu/navigation_menu"
         app:itemIconSize="25dp"
-        app:itemIconTint="@color/white"
         app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="unlabeled"/>
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"/>
 
 </RelativeLayout>
