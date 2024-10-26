@@ -3,6 +3,7 @@ package com.example.travelapplication.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.travelapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Dining extends AppCompatActivity {
 
@@ -21,15 +23,25 @@ public class Dining extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dining);
-        BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
-        navigationView.setSelectedItemId(R.id.dining);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.dining), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // Logout Button
+        Button logoutButton = findViewById(R.id.dinLogout);
+
+        logoutButton.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(Dining.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
         // Navigation Bar
+        BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
+        navigationView.setSelectedItemId(R.id.dining);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
