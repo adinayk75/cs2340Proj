@@ -23,6 +23,11 @@ import com.example.travelapplication.model.TravelInfo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Destination extends AppCompatActivity {
 
@@ -69,8 +74,14 @@ public class Destination extends AppCompatActivity {
                 }
 
                 if (isValid) {
-                    // Submit the form data to the database
-                    // ...
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference newTravelRef = databaseReference.child("travels").push();
+                    Map<String, Object> travelData = new HashMap<>();
+                    travelData.put("location", travelInfo.getLocation());
+                    travelData.put("estimatedStart", travelInfo.getEstimatedStart());
+                    travelData.put("estimatedEnd", travelInfo.getEstimatedEnd());
+
+                    newTravelRef.setValue(travelData);
 
                     // Close the dialog
                     dialog.dismiss();
