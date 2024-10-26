@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String username;
                 String password;
-                username = String.valueOf(editTextUsername.getText());
+                username = String.valueOf(editTextUsername.getText()) + "@travelista.com";
                 password = String.valueOf(editTextPassword.getText());
 
                 if (TextUtils.isEmpty(username)) {

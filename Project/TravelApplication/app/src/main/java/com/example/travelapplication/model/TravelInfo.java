@@ -5,6 +5,7 @@ public class TravelInfo {
     private String estimatedStart;
     private String estimatedEnd;
 
+
     // Constructor
     public TravelInfo(String location, String estimatedStart, String estimatedEnd) {
         this.location = location;
