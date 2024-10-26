@@ -6,24 +6,33 @@
     android:id="@+id/destination"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Destination">
+    tools:context=".view.Destination"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/dark_blue"
+        android:logo="@drawable/baseline_local_airport_24"
+        android:title="Travelista"
+        android:titleMarginStart="30dp"/>
 
     <Button
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
         android:text="LOGOUT" />
 
     <TextView
         android:id="@+id/DestinationsScreenText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="121dp"
-        android:layout_marginTop="29dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
         android:text="Destinations"
-        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -36,7 +45,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
         android:layout_marginBottom="0dp"
-        android:textSize="22dp"
         android:text="Log Travel" />
 
     <Button
@@ -45,10 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/logTravelButton"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="324dp"
         android:layout_centerHorizontal="true"
-        android:text="Calculate Vacation Time"
-        android:textSize="17dp" />
+        android:text="Calculate Vacation Time" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

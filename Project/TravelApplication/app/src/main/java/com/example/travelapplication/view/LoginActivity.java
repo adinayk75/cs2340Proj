@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText editTextUsername;
     private TextInputEditText editTextPassword;
     private FirebaseAuth mAuth;
-    private ProgressBar progressBar;
 
     @Override
     public void onStart() {
@@ -74,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String username;
                 String password;
-                username = String.valueOf(editTextUsername.getText()) + "@travelista.com";
+                username = String.valueOf(editTextUsername.getText());
                 password = String.valueOf(editTextPassword.getText());
 
                 if (TextUtils.isEmpty(username)) {
@@ -109,33 +107,6 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
-
-        /*
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText usernameEditText = findViewById(R.id.username);
-                EditText passwordEditText = findViewById(R.id.password);
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-
-                // Perform login logic here
-                if (username.equals("admin") && password.equals("admin")) {
-
-                    // Login successful, display message and navigate to MainActivity
-                    Toast.makeText(LoginActivity.this, "Login successful",
-                    Toast.LENGTH_SHORT).show();
-                    // Navigate to the Dashboard
-                    Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                    startActivity(intent);
-                } else {
-                    // Login failed, display error message
-                    Toast.makeText(LoginActivity.this, "Invalid username or password",
-                    Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-         */
 
     }
 }

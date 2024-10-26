@@ -3,6 +3,7 @@ package com.example.travelapplication.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.travelapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Logistics extends AppCompatActivity {
 
@@ -27,6 +29,16 @@ public class Logistics extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // Logout
+        Button logoutButton = findViewById(R.id.logLogout);
+
+        logoutButton.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(Logistics.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         // Navigation Bar

@@ -1,59 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/travel_form"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <EditText
-        android:id="@+id/travelLocation"
+    <data>
+        <variable
+            name="travelInfo"
+            type="com.example.travelapplication.model.TravelForm" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/travel_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Travel Location"
-        android:inputType="text" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/estimatedStart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/travelLocation"
-        android:hint="Estimated Start"
-        android:inputType="datetime"
-        android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/travelLocation"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="Boston, MA"
+            android:autofillHints="Boston, MA"
+            android:inputType="text"
+            android:background="@drawable/form_shape"
+            android:padding="16dp"/>
 
-    <EditText
-        android:id="@+id/estimatedEnd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/estimatedStart"
-        android:hint="Estimated End"
-        android:inputType="datetime"
-        android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/estimatedStart"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/travelLocation"
+            android:hint="01/01/2024"
+            android:autofillHints="MM/dd/yyyy"
+            android:inputType="datetime"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/form_shape"
+            android:padding="16dp"/>
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/estimatedEnd"
-        android:layout_marginTop="17dp"
-        android:layout_marginBottom="0dp"
-        android:text="Cancel"
-        android:textSize="22dp" />
+        <EditText
+            android:id="@+id/estimatedEnd"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/estimatedStart"
+            android:hint="01/02/2024"
+            android:autofillHints="MM/dd/yyyy"
+            android:inputType="datetime"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/form_shape"
+            android:padding="16dp"/>
 
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/estimatedEnd"
-        android:layout_marginLeft="58dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginBottom="0dp"
-        android:layout_toRightOf="@+id/cancelButton"
-        android:text="Submit"
-        android:textSize="22dp" />
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/estimatedEnd"
+            android:layout_marginTop="17dp"
+            android:layout_alignParentStart="true"
+            android:text="Cancel"
+            android:backgroundTint="@color/dark_blue" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/estimatedEnd"
+            android:layout_marginTop="17dp"
+            android:layout_alignParentEnd="true"
+            android:text="Submit"
+            android:backgroundTint="@color/dark_blue" />
+
+    </RelativeLayout>
+</layout>

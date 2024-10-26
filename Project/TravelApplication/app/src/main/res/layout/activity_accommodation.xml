@@ -6,13 +6,32 @@
     android:id="@+id/accommodation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Accommodation">
+    tools:context=".view.Accommodation"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/dark_blue"
+        android:logo="@drawable/baseline_local_airport_24"
+        android:title="Travelista"
+        android:titleMarginStart="30dp"/>
+
+    <Button
+        android:id="@+id/accLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
+        android:text="LOGOUT" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Accommodation"
+        android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold"
         android:layout_centerInParent="true" />
