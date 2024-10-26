@@ -3,6 +3,7 @@ package com.example.travelapplication.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,21 +15,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.travelapplication.R;
+import com.example.travelapplication.databinding.TravelFormBinding;
+import com.example.travelapplication.model.TravelInfo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Destination extends AppCompatActivity {
 
+    private static final String DATE_PATTERN = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/[0-9]{4}$";
+
     private void showTravelForm() {
         Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.travel_form);
 
-        EditText destinationEditText = dialog.findViewById(R.id.travelLocation);
-        EditText estimatedStartEditText = dialog.findViewById(R.id.estimatedStart);
-        EditText estimatedEndEditText = dialog.findViewById(R.id.estimatedEnd);
+        TravelInfo travelInfo = new TravelInfo("", "", "");
+
+        // Inflate popup layout with data binding
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        TravelFormBinding binding = DataBindingUtil.inflate(inflater, R.layout.travel_form, null, false);
+        binding.setTravelInfo(travelInfo);
+
+        dialog.setContentView(binding.getRoot());
 
         // Error Checking Logic
         Button submitButton = dialog.findViewById(R.id.submitButton);
@@ -37,18 +47,24 @@ public class Destination extends AppCompatActivity {
             public void onClick(View view) {
                 boolean isValid = true;
 
-                if (destinationEditText.getText().toString().isEmpty()) {
-                    destinationEditText.setError("Please enter a destination");
+                if (travelInfo.getLocation().isEmpty()) {
+                    binding.travelLocation.setError("Please enter a destination");
                     isValid = false;
                 }
 
-                if (estimatedStartEditText.getText().toString().isEmpty()) {
-                    estimatedStartEditText.setError("Please enter an estimated start date");
+                if (travelInfo.getEstimatedStart().isEmpty()) {
+                    binding.estimatedStart.setError("Please enter an estimated start date");
+                    isValid = false;
+                } else if (!travelInfo.getEstimatedStart().matches(DATE_PATTERN)) {
+                    binding.estimatedStart.setError("Please enter a valid date (MM/DD/YYYY)");
                     isValid = false;
                 }
 
-                if (estimatedEndEditText.getText().toString().isEmpty()) {
-                    estimatedEndEditText.setError("Please enter an estimated end date");
+                if (travelInfo.getEstimatedEnd().isEmpty()) {
+                    binding.estimatedEnd.setError("Please enter an estimated end date");
+                    isValid = false;
+                } else if (!travelInfo.getEstimatedEnd().matches(DATE_PATTERN)) {
+                    binding.estimatedEnd.setError("Please enter a valid date (MM/DD/YYYY)");
                     isValid = false;
                 }
 
@@ -71,6 +87,7 @@ public class Destination extends AppCompatActivity {
         });
         dialog.show();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
