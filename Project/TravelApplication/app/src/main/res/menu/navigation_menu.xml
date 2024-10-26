@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
-      android:id="@+id/logistics"
-      android:icon="@drawable/baseline_checklist_24"
-      android:title="Logistics"/>
-  <item
       android:id="@+id/destination"
       android:icon="@drawable/baseline_location_on_24"
-      android:title="Destination"/>
+      android:title="Destination"
+      android:checkable="true"/>
   <item
       android:id="@+id/dining"
       android:icon="@drawable/baseline_coffee_24"
-      android:title="Dining Establishment"/>
+      android:title="Dining Establishment"
+      android:checkable="true"/>
   <item
       android:id="@+id/accommodation"
       android:icon="@drawable/baseline_home_24"
-      android:title="Accommodation"/>
+      android:title="Accommodation"
+      android:checkable="true"/>
   <item
       android:id="@+id/transportation"
       android:icon="@drawable/baseline_directions_car_24"
-      android:title="Transportation"/>
+      android:title="Transportation"
+      android:checkable="true"/>
   <item
-      android:id="@+id/travel"
-      android:icon="@drawable/baseline_local_airport_24"
-      android:title="Travel Community"/>
+      android:id="@+id/logistics"
+      android:icon="@drawable/baseline_analytics_24"
+      android:title="Logistics"
+      android:checkable="true"/>
 </menu>
