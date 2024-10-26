@@ -30,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class Destination extends AppCompatActivity {
 
@@ -101,14 +101,15 @@ public class Destination extends AppCompatActivity {
                     LocalDate startDateLocal = LocalDate.of(year1, month1, day1);
                     LocalDate endDateLocal = LocalDate.of(year2, month2, day2);
 
-                    Period period = Period.between(startDateLocal, endDateLocal);
-                    String duration = String.valueOf(period.getDays());
+                    long period = ChronoUnit.DAYS.between(startDateLocal, endDateLocal);
+                    String duration = String.valueOf(period);
 
                     // Put data in database
                     travelData.put("location", travelInfo.getLocation());
                     travelData.put("estimatedStart", travelInfo.getEstimatedStart());
                     travelData.put("estimatedEnd", travelInfo.getEstimatedEnd());
                     travelData.put("duration", duration);
+                    date.setText(duration);
 
                     newTravelRef.setValue(travelData);
 
