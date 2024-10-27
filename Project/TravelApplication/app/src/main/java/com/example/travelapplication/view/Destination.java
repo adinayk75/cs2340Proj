@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -28,12 +29,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Destination extends AppCompatActivity {
 
     private static final String DATE_PATTERN = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/[0-9]{4}$";
 
     private void showTravelForm() {
+        Map<String, Object> travelData = new HashMap<>();
+
         Dialog dialog = new Dialog(this);
 
         TravelInfo travelInfo = new TravelInfo("", "", "");
@@ -76,10 +81,35 @@ public class Destination extends AppCompatActivity {
                 if (isValid) {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     DatabaseReference newTravelRef = databaseReference.child("travels").push();
-                    Map<String, Object> travelData = new HashMap<>();
+
+                    // Calculates time between dates
+                    TextView date = findViewById(R.id.resultLabel);
+
+                    String startDate = travelInfo.getEstimatedStart();
+                    String endDate = travelInfo.getEstimatedEnd();
+                    String[] startParts = startDate.split("/");
+                    String[] endParts = endDate.split("/");
+
+                    int month1 = Integer.parseInt(startParts[0]);
+                    int day1 = Integer.parseInt(startParts[1]);
+                    int year1 = Integer.parseInt(startParts[2]);
+
+                    int month2 = Integer.parseInt(endParts[0]);
+                    int day2 = Integer.parseInt(endParts[1]);
+                    int year2 = Integer.parseInt(endParts[2]);
+
+                    LocalDate startDateLocal = LocalDate.of(year1, month1, day1);
+                    LocalDate endDateLocal = LocalDate.of(year2, month2, day2);
+
+                    long period = ChronoUnit.DAYS.between(startDateLocal, endDateLocal);
+                    String duration = String.valueOf(period);
+
+                    // Put data in database
                     travelData.put("location", travelInfo.getLocation());
                     travelData.put("estimatedStart", travelInfo.getEstimatedStart());
                     travelData.put("estimatedEnd", travelInfo.getEstimatedEnd());
+                    travelData.put("duration", duration);
+                    date.setText(duration);
 
                     newTravelRef.setValue(travelData);
 
@@ -88,6 +118,17 @@ public class Destination extends AppCompatActivity {
                 }
             }
         });
+
+        /*
+        // Calculate Vacation Button
+        Button calculateButton = dialog.findViewById(R.id.CalculateVacationTime);
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+         */
 
         Button closeButton = dialog.findViewById(R.id.cancelButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
