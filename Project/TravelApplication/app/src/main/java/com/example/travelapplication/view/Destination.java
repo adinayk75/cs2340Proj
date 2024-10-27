@@ -78,6 +78,23 @@ public class Destination extends AppCompatActivity {
                     isValid = false;
                 }
 
+                String startDate = travelInfo.getEstimatedStart();
+                String endDate = travelInfo.getEstimatedEnd();
+                if (endDate.substring(endDate.length() - 4).compareTo(startDate.substring(startDate.length() - 4)) < 0) {
+                    binding.estimatedEnd.setError("Ensure your end date takes place after your start date.");
+                    isValid = false;
+                } else if ((endDate.substring(endDate.length() - 4).compareTo(startDate.substring(startDate.length() - 4)) == 0)) {
+                    if ((endDate.substring(endDate.length() - 7, endDate.length() - 5).compareTo(startDate.substring(endDate.length() - 7, startDate.length() - 5)) < 0)) {
+                        binding.estimatedEnd.setError("Ensure your end date takes place after your start date.");
+                        isValid = false;
+                    } else if ((endDate.substring(endDate.length() - 7, endDate.length() - 5).compareTo(startDate.substring(endDate.length() - 7, startDate.length() - 5)) == 0)) {
+                        if ((endDate.substring(0, endDate.length() - 8).compareTo(startDate.substring(endDate.length() - 7, startDate.length() - 5)) < 0)) {
+                            binding.estimatedEnd.setError("Ensure your end date takes place after your start date.");
+                            isValid = false;
+                        }
+                    }
+                }
+
                 if (isValid) {
                     DatabaseReference database = FirebaseDatabaseHelper.getInstance().getDatabase();
                     DatabaseReference newTravelRef = database.child("travels").push();
