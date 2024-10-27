@@ -145,7 +145,6 @@ public class Destination extends AppCompatActivity {
         EditText durationInput = dialogView.findViewById(R.id.durationInput);
         Button submitButton = dialogView.findViewById(R.id.submitButton);
 
-        // Set the button click listener
         submitButton.setOnClickListener(v -> {
             String startDateStr = startDateInput.getText().toString().trim();
             String endDateStr = endDateInput.getText().toString().trim();
