@@ -21,11 +21,11 @@ import androidx.databinding.DataBindingUtil;
 import com.example.travelapplication.R;
 import com.example.travelapplication.databinding.TravelFormBinding;
 import com.example.travelapplication.model.TravelInfo;
+import com.example.travelapplication.utils.FirebaseDatabaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,8 +79,8 @@ public class Destination extends AppCompatActivity {
                 }
 
                 if (isValid) {
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    DatabaseReference newTravelRef = databaseReference.child("travels").push();
+                    DatabaseReference database = FirebaseDatabaseHelper.getInstance().getDatabase();
+                    DatabaseReference newTravelRef = database.child("travels").push();
 
                     // Calculates time between dates
                     TextView date = findViewById(R.id.resultLabel);
