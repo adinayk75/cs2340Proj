@@ -2,18 +2,8 @@ package com.example.travelapplication.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.MenuItem;
 import android.widget.Button;
-
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -37,13 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 
-    private PieChart pieChart;
-
-
-
 public class Logistics extends AppCompatActivity {
     private PieChart pieChart;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,18 +42,6 @@ public class Logistics extends AppCompatActivity {
             return insets;
         });
 
-
-        //Visualization Chart
-
-        Button visualizeChartButton = findViewById(R.id.logisticsVisualizationButton);
-        pieChart = findViewById(R.id.pieChart);
-
-        visualizeChartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPieChart();
-                pieChart.setVisibility(View.VISIBLE);
-
         Button showChart = findViewById(R.id.CreateGraphButton);
         pieChart = findViewById(R.id.pieChart);
 
@@ -76,7 +49,6 @@ public class Logistics extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showPieChart();
-
             }
         });
 
@@ -120,17 +92,6 @@ public class Logistics extends AppCompatActivity {
 
     private void showPieChart() {
 
-        // Example data
-        int allottedDays = 10;
-        int plannedDays = 7;
-
-        List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(allottedDays, "Allotted Days"));
-        entries.add(new PieEntry(plannedDays, "Planned Days"));
-
-        PieDataSet dataSet = new PieDataSet(entries, "Trip Days");
-
-
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(40f, "Category 1"));
         entries.add(new PieEntry(30f, "Category 2"));
@@ -138,15 +99,10 @@ public class Logistics extends AppCompatActivity {
         entries.add(new PieEntry(10f, "Category 4"));
 
         PieDataSet dataSet = new PieDataSet(entries, "Categories");
-
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         PieData data = new PieData(dataSet);
         pieChart.setData(data);
-
-        pieChart.invalidate();
-
         pieChart.invalidate(); // Refresh the chart
-
     }
 }
