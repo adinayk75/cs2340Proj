@@ -1,0 +1,31 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/startDateInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start Date (MM/DD/YYYY)" />
+
+    <EditText
+        android:id="@+id/endDateInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="End Date (MM/DD/YYYY)" />
+
+    <EditText
+        android:id="@+id/durationInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Duration (days)" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate" />
+</LinearLayout>

@@ -26,7 +26,13 @@
         android:text="LOGOUT" />
 
     <TextView
+
         android:id="@+id/LogisticsScreenText"
+
+        android:id="@+id/logisticsTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logistics"
@@ -35,6 +41,7 @@
         android:layout_marginTop="80dp"
         android:textColor="@color/black"
         android:textStyle="bold"/>
+
 
     <Button
         android:id="@+id/logisticsVisualizationButton"
@@ -75,6 +82,33 @@
         android:layout_marginTop="8dp" />
 
 
+    <Button
+        android:id="@+id/CreateGraphButton"
+        android:layout_below="@+id/logisticsTitle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="0dp"
+        android:text="Create Graph" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/CreateGraphButton"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/ContributorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Other Content Here"
+        android:layout_below="@id/pieChart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <!-- Other content below the Pie Chart -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
