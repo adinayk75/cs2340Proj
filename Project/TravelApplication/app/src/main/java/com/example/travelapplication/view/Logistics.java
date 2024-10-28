@@ -12,6 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.os.Bundle;
+import android.util.Log;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -29,8 +37,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Logistics extends AppCompatActivity {
     private PieChart pieChart;
+    private DatabaseReference travelsRef;
+    private int durations;
+    private int allocatedDurations;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        travelsRef = FirebaseDatabase.getInstance().getReference("travels");
+        durations = 0;
+        allocatedDurations = 0;
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_logistics);
@@ -89,14 +103,40 @@ public class Logistics extends AppCompatActivity {
             }
         });
     }
+    private void getTravelDurations() {
+        travelsRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    durations = 0;
+                    allocatedDurations = 0;
 
+                    for (DataSnapshot travelSnapshot : dataSnapshot.getChildren()) {
+                        // Check if "duration" field exists
+                        if (travelSnapshot.hasChild("duration")) {
+                            durations += (int) travelSnapshot.child("duration").getValue();
+                        }
+
+                        // Check if "estimatedDuration" field exists
+                        if (travelSnapshot.hasChild("allocatedDuration")) {
+                            allocatedDurations += (int) travelSnapshot.child("allocatedDuration").getValue();
+                        }
+                    }
+                } else {
+                    Log.e("DatabaseError", task.getException().getMessage());
+                }
+            }
+        });
+    }
     private void showPieChart() {
-
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(40f, "Category 1"));
-        entries.add(new PieEntry(30f, "Category 2"));
-        entries.add(new PieEntry(20f, "Category 3"));
-        entries.add(new PieEntry(10f, "Category 4"));
+        getTravelDurations();
+        int total = durations + allocatedDurations;
+        int durationProp = (int) durations/total;
+        int allocatedProp = (int) allocatedDurations/total;
+        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        entries.add(new PieEntry(durationProp, "Estimated Durations"));
+        entries.add(new PieEntry(allocatedProp, "Allocated Durations"));
 
         PieDataSet dataSet = new PieDataSet(entries, "Categories");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);

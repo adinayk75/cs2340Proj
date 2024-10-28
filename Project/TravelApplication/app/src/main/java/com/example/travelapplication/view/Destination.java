@@ -224,7 +224,7 @@ public class Destination extends AppCompatActivity {
         Map<String, Object> travelData = new HashMap<>();
         travelData.put("allocatedStartDate", startDate);
         travelData.put("allocatedEndDate", endDate);
-        travelData.put("duration", duration);
+        travelData.put("allocatedDuration", duration);
 
         // Reference to the Firebase database
         DatabaseReference database = FirebaseDatabaseHelper.getInstance().getDatabase();
