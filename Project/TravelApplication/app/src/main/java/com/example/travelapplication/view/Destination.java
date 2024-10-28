@@ -102,8 +102,8 @@ public class Destination extends AppCompatActivity {
                     // Calculates time between dates
                     TextView date = findViewById(R.id.resultLabel);
 
-                    String startDate = travelInfo.getEstimatedStart();
-                    String endDate = travelInfo.getEstimatedEnd();
+                    startDate = travelInfo.getEstimatedStart();
+                    endDate = travelInfo.getEstimatedEnd();
                     String[] startParts = startDate.split("/");
                     String[] endParts = endDate.split("/");
 
