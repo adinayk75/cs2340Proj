@@ -1,5 +1,6 @@
 package com.example.travelapplication.view;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -102,7 +103,7 @@ public class Destination extends AppCompatActivity {
                     LocalDate endDateLocal = LocalDate.of(year2, month2, day2);
 
                     long period = ChronoUnit.DAYS.between(startDateLocal, endDateLocal);
-                    String duration = String.valueOf(period);
+                    String duration = period + " days";
 
                     // Put data in database
                     travelData.put("location", travelInfo.getLocation());
@@ -119,17 +120,6 @@ public class Destination extends AppCompatActivity {
             }
         });
 
-        /*
-        // Calculate Vacation Button
-        Button calculateButton = dialog.findViewById(R.id.CalculateVacationTime);
-        calculateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-         */
-
         Button closeButton = dialog.findViewById(R.id.cancelButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +130,65 @@ public class Destination extends AppCompatActivity {
         dialog.show();
     }
 
+    // Calculate button
+    private void showInputDialog() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_date_duration_input, null);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setTitle("Enter Details")
+                .create();
+
+        EditText startDateInput = dialogView.findViewById(R.id.startDateInput);
+        EditText endDateInput = dialogView.findViewById(R.id.endDateInput);
+        EditText durationInput = dialogView.findViewById(R.id.durationInput);
+        Button submitButton = dialogView.findViewById(R.id.submitButton);
+
+        submitButton.setOnClickListener(v -> {
+            String startDateStr = startDateInput.getText().toString().trim();
+            String endDateStr = endDateInput.getText().toString().trim();
+            String durationStr = durationInput.getText().toString().trim();
+
+            calculateMissingField(startDateStr, endDateStr, durationStr);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void calculateMissingField(String startDateStr, String endDateStr, String durationStr) {
+        try {
+            LocalDate startDate = startDateStr.isEmpty() ? null : LocalDate.parse(startDateStr, java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            LocalDate endDate = endDateStr.isEmpty() ? null : LocalDate.parse(endDateStr, java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            Long duration = durationStr.isEmpty() ? null : Long.parseLong(durationStr);
+
+            if (startDate == null && endDate != null && duration != null) {
+                // Calculate Start Date
+                startDate = endDate.minusDays(duration);
+                showResult("Start Date is: " + startDate.toString());
+            } else if (endDate == null && startDate != null && duration != null) {
+                // Calculate End Date
+                endDate = startDate.plusDays(duration);
+                showResult("End Date is: " + endDate.toString());
+            } else if (duration == null && startDate != null && endDate != null) {
+                // Calculate Duration
+                duration = ChronoUnit.DAYS.between(startDate, endDate);
+                showResult("Duration is: " + duration + " days");
+            } else {
+                showResult("Please fill out exactly two fields.");
+            }
+        } catch (Exception e) {
+            showResult("Invalid input. Please check the date format and values.");
+        }
+    }
+
+    private void showResult(String message) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +204,7 @@ public class Destination extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         Button logTravelButton = findViewById(R.id.logTravelButton);
+        Button calculateButton = findViewById(R.id.CalculateVacationTime);
 
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
@@ -166,6 +216,13 @@ public class Destination extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showTravelForm();
+            }
+        });
+
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showInputDialog();
             }
         });
 
