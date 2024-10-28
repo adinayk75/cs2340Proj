@@ -2,8 +2,18 @@ package com.example.travelapplication.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.MenuItem;
 import android.widget.Button;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -18,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Logistics extends AppCompatActivity {
 
+    private PieChart pieChart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +41,19 @@ public class Logistics extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        //Visualization Chart
+
+        Button visualizeChartButton = findViewById(R.id.logisticsVisualizationButton);
+        pieChart = findViewById(R.id.pieChart);
+
+        visualizeChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPieChart();
+                pieChart.setVisibility(View.VISIBLE);
+            }
         });
 
         // Logout
@@ -67,5 +92,22 @@ public class Logistics extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void showPieChart() {
+        // Example data
+        int allottedDays = 10;
+        int plannedDays = 7;
+
+        List<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(allottedDays, "Allotted Days"));
+        entries.add(new PieEntry(plannedDays, "Planned Days"));
+
+        PieDataSet dataSet = new PieDataSet(entries, "Trip Days");
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        PieData data = new PieData(dataSet);
+        pieChart.setData(data);
+        pieChart.invalidate();
     }
 }

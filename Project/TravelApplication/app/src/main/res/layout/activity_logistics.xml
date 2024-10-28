@@ -26,14 +26,54 @@
         android:text="LOGOUT" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/LogisticsScreenText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logistics"
-        android:textSize="30dp"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/logisticsVisualizationButton"
+        android:layout_below="@+id/LogisticsScreenText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="0dp"
+        android:text="Visualize Chart Graphic" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/logisticsVisualizationButton"
+        android:visibility="gone"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/LogisticsContributorsText"
+        android:layout_below="@id/pieChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contributors"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/inviteContributorsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Invite Contributors"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/LogisticsContributorsText"
+        android:layout_marginTop="8dp" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
