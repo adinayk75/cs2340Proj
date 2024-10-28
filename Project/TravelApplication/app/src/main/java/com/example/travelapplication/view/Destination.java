@@ -176,28 +176,64 @@ public class Destination extends AppCompatActivity {
 
     private void calculateMissingField(String startDateStr, String endDateStr, String durationStr) {
         try {
+            // Parse dates if present
             LocalDate startDate = startDateStr.isEmpty() ? null : LocalDate.parse(startDateStr, java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
             LocalDate endDate = endDateStr.isEmpty() ? null : LocalDate.parse(endDateStr, java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
             Long duration = durationStr.isEmpty() ? null : Long.parseLong(durationStr);
 
+            String calculatedStartDate = "";
+            String calculatedEndDate = "";
+            String calculatedDuration = "";
+
             if (startDate == null && endDate != null && duration != null) {
                 // Calculate Start Date
                 startDate = endDate.minusDays(duration);
-                showResult("Start Date is: " + startDate.toString());
+                calculatedStartDate = startDate.format(java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                calculatedEndDate = endDateStr;
+                calculatedDuration = duration + " days";
+                showResult("Start Date is: " + calculatedStartDate);
             } else if (endDate == null && startDate != null && duration != null) {
                 // Calculate End Date
                 endDate = startDate.plusDays(duration);
-                showResult("End Date is: " + endDate.toString());
+                calculatedStartDate = startDateStr;
+                calculatedEndDate = endDate.format(java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                calculatedDuration = duration + " days";
+                showResult("End Date is: " + calculatedEndDate);
             } else if (duration == null && startDate != null && endDate != null) {
                 // Calculate Duration
                 duration = ChronoUnit.DAYS.between(startDate, endDate);
-                showResult("Duration is: " + duration + " days");
+                calculatedStartDate = startDateStr;
+                calculatedEndDate = endDateStr;
+                calculatedDuration = duration + " days";
+                showResult("Duration is: " + calculatedDuration);
             } else {
                 showResult("Please fill out exactly two fields.");
+                return; // Don't proceed further if the input is invalid
             }
+
+            // Save data to the database
+            saveToDatabase(calculatedStartDate, calculatedEndDate, calculatedDuration);
+
         } catch (Exception e) {
             showResult("Invalid input. Please check the date format and values.");
         }
+    }
+
+    private void saveToDatabase(String startDate, String endDate, String duration) {
+        // Create a map for the travel data
+        Map<String, Object> travelData = new HashMap<>();
+        travelData.put("allocatedStartDate", startDate);
+        travelData.put("allocatedEndDate", endDate);
+        travelData.put("duration", duration);
+
+        // Reference to the Firebase database
+        DatabaseReference database = FirebaseDatabaseHelper.getInstance().getDatabase();
+        DatabaseReference newTravelRef = database.child("travels").push();
+
+        // Store the travel data in the database
+        newTravelRef.setValue(travelData)
+                .addOnSuccessListener(aVoid -> showResult("Data saved successfully!"))
+                .addOnFailureListener(e -> showResult("Failed to save data: " + e.getMessage()));
     }
 
     private void showResult(String message) {
