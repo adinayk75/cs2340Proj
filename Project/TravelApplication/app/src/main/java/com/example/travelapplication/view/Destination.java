@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDate;
@@ -36,6 +39,8 @@ import java.time.temporal.ChronoUnit;
 public class Destination extends AppCompatActivity {
 
     private static final String DATE_PATTERN = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/[0-9]{4}$";
+
+    private LinearLayout destinationsContainer;
 
     private void showTravelForm() {
         Map<String, Object> travelData = new HashMap<>();
@@ -101,7 +106,6 @@ public class Destination extends AppCompatActivity {
                     DatabaseReference newTravelRef = database.child("travels").push();
 
                     // Calculates time between dates
-                    TextView date = findViewById(R.id.resultLabel);
 
                     startDate = travelInfo.getEstimatedStart();
                     endDate = travelInfo.getEstimatedEnd();
@@ -127,7 +131,9 @@ public class Destination extends AppCompatActivity {
                     travelData.put("estimatedStart", travelInfo.getEstimatedStart());
                     travelData.put("estimatedEnd", travelInfo.getEstimatedEnd());
                     travelData.put("duration", duration);
-                    date.setText(duration);
+
+                    // Adding destination entry
+                    addDestinationEntry(travelInfo.getLocation(), duration);
 
                     newTravelRef.setValue(travelData);
 
@@ -176,10 +182,26 @@ public class Destination extends AppCompatActivity {
 
     private void calculateMissingField(String startDateStr, String endDateStr, String durationStr) {
         try {
-            // Parse dates if present
-            LocalDate startDate = startDateStr.isEmpty() ? null : LocalDate.parse(startDateStr, java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-            LocalDate endDate = endDateStr.isEmpty() ? null : LocalDate.parse(endDateStr, java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-            Long duration = durationStr.isEmpty() ? null : Long.parseLong(durationStr);
+            LocalDate startDate;
+            if (startDateStr.isEmpty()) {
+                startDate = null;
+            } else {
+                startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            }
+
+            LocalDate endDate;
+            if (endDateStr.isEmpty()) {
+                endDate = null;
+            } else {
+                endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            }
+
+            Long duration;
+            if (durationStr.isEmpty()) {
+                duration = null;
+            } else {
+                duration = Long.parseLong(durationStr);
+            }
 
             String calculatedStartDate = "";
             String calculatedEndDate = "";
@@ -243,6 +265,30 @@ public class Destination extends AppCompatActivity {
                 .show();
     }
 
+    private void addDestinationEntry(String location, String duration) {
+        int entryCount = destinationsContainer.getChildCount();
+        if (entryCount >= 5) {
+            destinationsContainer.removeViewAt(0);
+        }
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View entryView = inflater.inflate(R.layout.destination_entry, destinationsContainer, false);
+
+        TextView destinationLocationTextView = entryView.findViewById(R.id.destinationLocationTextView);
+        TextView destinationDurationTextView = entryView.findViewById(R.id.destinationDurationTextView);
+
+        destinationLocationTextView.setText("Destination: " + location);
+        destinationDurationTextView.setText("Duration: " + duration);
+
+        destinationsContainer.addView(entryView);
+    }
+
+
+    // ***********
+    // MAIN METHOD
+    // ***********
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -258,6 +304,15 @@ public class Destination extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         Button logTravelButton = findViewById(R.id.logTravelButton);
         Button calculateButton = findViewById(R.id.CalculateVacationTime);
+
+        destinationsContainer = findViewById(R.id.destinationsContainer);
+
+        // Populating the screen with 5 example destinations
+        addDestinationEntry("Boston, MA", "10 days");
+        addDestinationEntry("New York, NY", "7 days");
+        addDestinationEntry("Los Angeles, CA", "5 days");
+        addDestinationEntry("Chicago, IL", "3 days");
+        addDestinationEntry("San Francisco, CA", "9 days");
 
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
