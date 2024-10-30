@@ -57,44 +57,14 @@
         android:id="@+id/CommentInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-=======
         android:text="Contributors"
->>>>>>> 31a9aff34279c360f062583c5f11c34f3544b352
         android:layout_below="@id/pieChart"
         android:height="40dp"
         android:width="100dp"
         android:paddingTop="20dp"
         android:layout_centerHorizontal="true"
-<<<<<<< HEAD
         android:layout_marginTop="12dp"
         android:hint="Comment"/>
-=======
-        android:textColor="@color/black"
-        android:textSize="24dp"
-        android:layout_marginTop="16dp" />
->>>>>>> 31a9aff34279c360f062583c5f11c34f3544b352
-
-    <Button
-        android:id="@+id/inviteContributorsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Invite Contributors"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/ContributorName"
-        android:layout_marginTop="8dp" />
-
-
-    <Button
-        android:id="@+id/ContributorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/ContributorTitle"
-        android:text="User"
-        android:textColor="@color/white"
-        android:textSize="16dp"
-        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/remove_button"

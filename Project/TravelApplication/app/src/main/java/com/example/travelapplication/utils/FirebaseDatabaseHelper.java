@@ -6,9 +6,11 @@ import com.google.firebase.database.FirebaseDatabase;
 public class FirebaseDatabaseHelper {
     private static FirebaseDatabaseHelper instance;
     private DatabaseReference database;
+    private FirebaseDatabase databaseInstance;
 
     private FirebaseDatabaseHelper() {
         database = FirebaseDatabase.getInstance().getReference();
+        databaseInstance = FirebaseDatabase.getInstance();
     }
 
     public static synchronized FirebaseDatabaseHelper getInstance() {
@@ -21,4 +23,5 @@ public class FirebaseDatabaseHelper {
     public DatabaseReference getDatabase() {
         return database;
     }
+    public FirebaseDatabase getFirebaseInstance() { return databaseInstance; }
 }
