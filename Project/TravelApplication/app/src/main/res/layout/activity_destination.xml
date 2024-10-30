@@ -6,6 +6,7 @@
     android:id="@+id/destination"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context=".view.Destination"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -56,6 +57,16 @@
         android:layout_centerHorizontal="true"
         android:text="Calculate Vacation Time" />
 
+    <LinearLayout
+        android:id="@+id/destinationsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/CalculateVacationTime"
+        android:layout_marginTop="10dp" />
+
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,4 +114,5 @@
         android:text=""
         android:textColor="#000000"
         android:textSize="30sp" />
+
 </RelativeLayout>
