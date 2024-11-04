@@ -18,7 +18,7 @@ public class main {
 
         Order order = new Order(items, "John Doe", "johndoe@example.com");
 
-        logger.log("Total Price: " + order.calculateTotalPrice());
+        logger.info("Total Price: " + order.calculateTotalPrice());
 
         order.sendConfirmationEmail();
 
