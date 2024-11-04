@@ -7,8 +7,8 @@ public class EmailSender {
     private EmailSender(){}
 
     public static void sendEmail(String customerEmail, String subject, String message){
-        logger.log("Email to: " + customerEmail);
-        logger.log("Subject: " + subject);
-        logger.log("Body: " + message);
+        logger.info("Email to: " + customerEmail);
+        logger.info("Subject: " + subject);
+        logger.info("Body: " + message);
     }
 }
