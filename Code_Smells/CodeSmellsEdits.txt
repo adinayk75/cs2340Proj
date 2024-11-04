@@ -1,0 +1,67 @@
+Group Members: Sowmiyan Nattamai, Adinay Khatri, Rishi Raina, Ishaan Reddy
+
+For this activity we fixed 4 codesmells in Order.java.
+
+For our first codesmell, we were tasked with changing the following code to use StringBuilder instead:
+
+ public void sendConfirmationEmail() {
+         String message = "Thank you for your order, " + customerName + "!\n\n" +
+                "Your order details:\n";
+        for (Item item : items) {
+             message += item.getName() + " - " + item.getPrice() + "\n";
+        }
+
+So simply put, we created a new StringBuilder object and using the object we used the StringBuilder classes methods to achieve the same functions that the code had before
+
+public void sendConfirmationEmail() {
+        StringBuilder message = new StringBuilder("Thank you for your order, " + customerName + "!\n\n");
+        message.append("Your order details:\n");
+
+        for (Item item : items) {
+            message.append(item.getName()).append(" - ").append(item.getPrice()).append("\n");
+        }
+
+        message.append("Total: ").append(calculateTotalPrice());
+        EmailSender.sendEmail(customerEmail, "Order Confirmation", message.toString());
+    }
+
+For our second codesmell we were simply rename the local variable "has_gift_card" as it does not follow Javas Standard naming conventions, into something more appropriate, so in this case we did hasGiftCard:
+
+Before:
+  public boolean hasGiftCard() {
+        boolean has_gift_card = false;
+        for (Item item : items) {
+            if (item instanceof GiftCardItem) {
+                has_gift_card = true;
+                break;
+            }
+        }
+        return has_gift_card;
+    }
+After:
+boolean hasGiftCard = false;
+for (Item item : items) {
+    if (item instanceof GiftCardItem) {
+        hasGiftCard = true;
+        break;
+    }
+}
+return hasGiftCard;
+
+For our third and fourth codesmell, we were tasked with changing the printOrder method to print using a logger, instead of system.out.println. 
+
+public void printOrder() {
+        (3) System.out.println("Order Details:");
+        for (Item item : items) {
+            (4) System.out.println(item.getName() + " - " + item.getPrice());
+        }
+   }
+
+So simply put, we imported the Logger class and created a new object for the logger. Then we replaced the printlns with logger.info
+
+public void printOrder() {
+        logger.info("Order Details:");
+        for (Item item : items) {
+            logger.info(item.getName() + " - " + item.getPrice());
+        }
+    }
