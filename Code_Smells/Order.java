@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Order {
     private List<Item> items;
@@ -43,13 +44,15 @@ public class Order {
     }
 
     public void sendConfirmationEmail() {
-        String message = "Thank you for your order, " + customerName + "!\n\n" +
-                "Your order details:\n";
+        StringBuilder message = new StringBuilder("Thank you for your order, " + customerName + "!\n\n");
+        message.append("Your order details:\n");
+
         for (Item item : items) {
-            message += item.getName() + " - " + item.getPrice() + "\n";
+            message.append(item.getName()).append(" - ").append(item.getPrice()).append("\n");
         }
-        message += "Total: " + calculateTotalPrice();
-        EmailSender.sendEmail(customerEmail, "Order Confirmation", message);
+
+        message.append("Total: ").append(calculateTotalPrice());
+        EmailSender.sendEmail(customerEmail, "Order Confirmation", message.toString());
     }
 
 
@@ -86,22 +89,24 @@ public class Order {
     }
 
     public boolean hasGiftCard() {
-        boolean has_gift_card = false;
+        boolean hasGiftCard = false;
         for (Item item : items) {
             if (item instanceof GiftCardItem) {
-                has_gift_card = true;
+                hasGiftCard = true;
                 break;
             }
         }
-        return has_gift_card;
+        return hasGiftCard;
     }
 
-   public void printOrder() {
-        System.out.println("Order Details:");
+    private static final Logger logger = Logger.getLogger(Order.class.getName());
+
+    public void printOrder() {
+        logger.info("Order Details:");
         for (Item item : items) {
-            System.out.println(item.getName() + " - " + item.getPrice());
+            logger.info(item.getName() + " - " + item.getPrice());
         }
-   }
+    }
 
    public void addItemsFromAnotherOrder(Order otherOrder) {
         for (Item item : otherOrder.getItems()) {
