@@ -53,18 +53,18 @@
         android:layout_below="@id/CreateGraphButton"
         android:layout_marginTop="16dp"/>
 
-    <EditText
-        android:id="@+id/CommentInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contributors"
-        android:layout_below="@id/pieChart"
-        android:height="40dp"
-        android:width="100dp"
-        android:paddingTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:hint="Comment"/>
+<!--    <EditText-->
+<!--        android:id="@+id/CommentInput"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Contributors"-->
+<!--        android:layout_below="@id/pieChart"-->
+<!--        android:height="40dp"-->
+<!--        android:width="100dp"-->
+<!--        android:paddingTop="20dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:hint="Comment"/>-->
 
     <Button
         android:id="@+id/remove_button"
@@ -74,12 +74,12 @@
 
     <!-- Other content below the Pie Chart -->
     <Button
-        android:id="@+id/CommentSubmit"
+        android:id="@+id/invite_collaborators_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/CommentInput"
+        android:layout_below="@id/pieChart"
         android:layout_centerHorizontal="true"
-        android:text="Add comment"
+        android:text="Invite Collaborators"
         android:layout_marginTop="10dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
