@@ -10,10 +10,8 @@ public class AccommodationInfo {
 
 
     public AccommodationInfo() {
-        // Firebase requires an empty constructor
     }
 
-    // Constructor to initialize the fields
     public AccommodationInfo(String checkInDate, String checkOutDate, String location, int numRooms, String roomType) {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -22,7 +20,6 @@ public class AccommodationInfo {
         this.roomType = roomType;
     }
 
-    // Getter methods for each field
     public String getCheckInDate() {
         return checkInDate;
     }
@@ -43,7 +40,6 @@ public class AccommodationInfo {
         return roomType;
     }
 
-    // Setter methods in case you need to set values after initialization
     public void setCheckInDate(String checkInDate) {
         this.checkInDate = checkInDate;
     }

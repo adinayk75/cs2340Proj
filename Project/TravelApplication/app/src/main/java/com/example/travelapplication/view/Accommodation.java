@@ -41,23 +41,19 @@ public class Accommodation extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_accommodation);
 
-        // Set window insets for edge-to-edge support
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.accommodation), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Initialize the accommodation container (for dynamic reservation list)
         accommodationContainer = findViewById(R.id.accommodationContainer);
 
-        // Floating Action Button to add accommodation
         FloatingActionButton addAccommodationButton = findViewById(R.id.addAccommodationButton);
         addAccommodationButton.setOnClickListener(v -> {
             showAccommodationForm();
         });
 
-        // Logout Button
         Button logoutButton = findViewById(R.id.accLogout);
         logoutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
@@ -66,7 +62,6 @@ public class Accommodation extends AppCompatActivity {
             finish();
         });
 
-        // Navigation Bar
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         navigationView.setSelectedItemId(R.id.accommodation);
 
@@ -86,12 +81,10 @@ public class Accommodation extends AppCompatActivity {
             return true;
         });
 
-        // Display existing accommodations
         displayAccommodations();
     }
 
     private void showAccommodationForm() {
-        // Inflate the form for adding accommodation
         View formView = getLayoutInflater().inflate(R.layout.accomodation_form, null);
 
         EditText checkInDate = formView.findViewById(R.id.editCheckInDate);
@@ -101,68 +94,74 @@ public class Accommodation extends AppCompatActivity {
         EditText roomType = formView.findViewById(R.id.editRoomType);
         Button submitButton = formView.findViewById(R.id.submitAccommodationButton);
 
-        // Show form in a dialog or directly in the UI
         setContentView(formView);
 
         submitButton.setOnClickListener(view -> {
-            // Get data from form
             String checkIn = checkInDate.getText().toString();
             String checkOut = checkOutDate.getText().toString();
             String loc = location.getText().toString();
             String numRoom = numRooms.getText().toString();
             String roomTyp = roomType.getText().toString();
 
-            // Validate inputs here (optional)
 
-            // Save to Firebase database
             saveAccommodationToDatabase(checkIn, checkOut, loc, numRoom, roomTyp);
 
-            // Close form
             finish();
         });
     }
 
     private void saveAccommodationToDatabase(String checkInDate, String checkOutDate, String location, String numRooms, String roomType) {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("accommodations");
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("accommodations").child(userId);
+
         String id = database.push().getKey();
 
         if (id != null) {
             AccommodationInfo accommodation = new AccommodationInfo(checkInDate, checkOutDate, location, Integer.parseInt(numRooms), roomType);
+
             database.child(id).setValue(accommodation);
         }
     }
 
     private void displayAccommodations() {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("accommodations");
+        // Get the current user's unique ID
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Create a reference to the user's specific accommodations node
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("accommodations").child(userId);
+
+        // Listen for changes to the user's accommodations data
         database.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                accommodationContainer.removeAllViews(); // Clear previous views
+                // Clear any previously displayed accommodations
+                accommodationContainer.removeAllViews();
 
+                // Loop through each accommodation and display it
                 for (DataSnapshot accommodationSnapshot : snapshot.getChildren()) {
                     AccommodationInfo accommodation = accommodationSnapshot.getValue(AccommodationInfo.class);
 
                     if (accommodation != null) {
-                        // Inflate each reservation view
+                        // Inflate the layout for displaying each accommodation
                         View accommodationView = getLayoutInflater().inflate(R.layout.accommodation_item, null);
 
+                        // Find the TextViews in the layout to populate with accommodation data
                         TextView checkInView = accommodationView.findViewById(R.id.checkInView);
                         TextView checkOutView = accommodationView.findViewById(R.id.checkOutView);
                         TextView locationView = accommodationView.findViewById(R.id.locationView);
                         TextView numRoomsView = accommodationView.findViewById(R.id.numRoomsView);
                         TextView roomTypeView = accommodationView.findViewById(R.id.roomTypeView);
 
+                        // Set the accommodation data to the views
                         checkInView.setText("Check-in: " + accommodation.getCheckInDate());
                         checkOutView.setText("Check-out: " + accommodation.getCheckOutDate());
                         locationView.setText("Location: " + accommodation.getLocation());
                         numRoomsView.setText("Rooms: " + accommodation.getNumRooms());
                         roomTypeView.setText("Room Type: " + accommodation.getRoomType());
 
-                        // Check if the reservation is past
-                        LocalDate checkOut = LocalDate.parse(accommodation.getCheckOutDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-
-
+                        // Add the accommodation view to the container
                         accommodationContainer.addView(accommodationView);
                     }
                 }
@@ -170,7 +169,7 @@ public class Accommodation extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error here
+                // Handle any errors when retrieving data
             }
         });
     }
