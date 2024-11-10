@@ -1,0 +1,48 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editCheckInDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Check-in Date (MM/DD/YYYY)"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/editCheckOutDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Check-out Date (MM/DD/YYYY)"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/editLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Location" />
+
+    <EditText
+        android:id="@+id/editNumRooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Number of Rooms"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editRoomType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Room Type" />
+
+    <Button
+        android:id="@+id/submitAccommodationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Add Accommodation" />
+</LinearLayout>
