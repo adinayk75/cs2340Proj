@@ -30,11 +30,40 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
         android:text="Dining Establishment"
         android:textColor="@color/black"
         android:textSize="30dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:textStyle="bold" />
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/textView3"
+      android:layout_marginTop="16dp">
+
+      <LinearLayout
+          android:id="@+id/display_reservation"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:padding="16dp"/>
+  </ScrollView>
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_reservation_floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="140dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/baseline_add_24"/>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
