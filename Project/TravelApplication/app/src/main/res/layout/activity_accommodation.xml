@@ -10,9 +10,9 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
         android:background="@color/dark_blue"
         android:logo="@drawable/baseline_local_airport_24"
         android:title="Travelista"
@@ -30,16 +30,44 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
         android:text="Accommodation"
         android:textColor="@color/black"
         android:textSize="30dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true" />
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/textView3"
+        android:layout_above="@id/bottomNavigationView"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:id="@+id/accommodationContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp" />
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAccommodationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Add accommodation"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@android:color/white" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottomNavigationView"
         android:layout_alignParentBottom="true"
         android:background="@drawable/nav_shape"
         android:layout_marginEnd="40dp"
@@ -53,5 +81,4 @@
         app:labelVisibilityMode="unlabeled"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"/>
-
 </RelativeLayout>
