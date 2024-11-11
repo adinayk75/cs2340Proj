@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/round_corner_background">
+
+    <TextView
+        android:id="@+id/restaurant_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/restaurant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Restaurant Name"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/restaurant_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/restaurant_website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="www.website.com"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>
