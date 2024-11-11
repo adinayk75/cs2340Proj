@@ -16,7 +16,7 @@ import com.example.travelapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Transportation extends AppCompatActivity {
+public class    Transportation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

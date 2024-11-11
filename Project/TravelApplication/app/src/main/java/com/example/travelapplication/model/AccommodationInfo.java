@@ -1,4 +1,7 @@
 package com.example.travelapplication.model;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class AccommodationInfo {
 
@@ -58,5 +61,10 @@ public class AccommodationInfo {
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+
+    public LocalDate getCheckInLocalDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(checkInDate, formatter);
     }
 }
