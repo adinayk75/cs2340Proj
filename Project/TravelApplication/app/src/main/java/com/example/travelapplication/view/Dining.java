@@ -2,6 +2,7 @@ package com.example.travelapplication.view;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,12 +30,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 public class Dining extends AppCompatActivity {
 
 
     private LinearLayout displayReservation;
+    private Button toggleSortButton;
+    private boolean isSorted = false;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm", Locale.getDefault());
+    private List<DiningInfo> reservationList = new ArrayList<>();
+
 
 
     @Override
@@ -49,6 +63,7 @@ public class Dining extends AppCompatActivity {
         });
 
         displayReservation = findViewById(R.id.display_reservation);
+        toggleSortButton = findViewById(R.id.toggleSortButton);
 
         FloatingActionButton addReservationFloatingButton = findViewById(R.id.add_reservation_floating_button);
         addReservationFloatingButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +72,7 @@ public class Dining extends AppCompatActivity {
                 showDiningDialog();
             }
         });
+
         // Logout Button
         Button logoutButton = findViewById(R.id.dinLogout);
 
@@ -66,6 +82,8 @@ public class Dining extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        toggleSortButton.setOnClickListener(view -> toggleSort());
 
         // Navigation Bar
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
@@ -117,11 +135,11 @@ public class Dining extends AppCompatActivity {
                 String time = timeInput.getText().toString().trim();
                 String name = nameInput.getText().toString().trim();
 
-                if (!location.isEmpty() && !time.isEmpty()) {
+                if (!location.isEmpty() && !time.isEmpty() && !name.isEmpty()) {
                     saveDiningReservation(location, website, time, name);
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(Dining.this, "Location and Time are required.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dining.this, "Location, Time, and Name are required.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -148,27 +166,17 @@ public class Dining extends AppCompatActivity {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                reservationList.clear();
                 displayReservation.removeAllViews();
 
                 for (DataSnapshot diningSnapshot : snapshot.getChildren()) {
                     DiningInfo reservation = diningSnapshot.getValue(DiningInfo.class);
-
                     if (reservation != null) {
-                        View reservationView = getLayoutInflater().inflate(R.layout.dining_reservation, null);
-
-                        TextView location = reservationView.findViewById(R.id.restaurant_location);
-                        TextView name = reservationView.findViewById(R.id.restaurant_name);
-                        TextView time = reservationView.findViewById(R.id.restaurant_time);
-                        TextView website = reservationView.findViewById(R.id.restaurant_website);
-
-                        location.setText("Location: " + reservation.getLocation());
-                        name.setText("Name: " + reservation.getName());
-                        time.setText("Time: " + reservation.getTime());
-                        website.setText("Website: " + reservation.getWebsite());
-
-                        displayReservation.addView(reservationView);
+                        reservationList.add(reservation);
                     }
                 }
+
+                displayReservations();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -177,14 +185,61 @@ public class Dining extends AppCompatActivity {
         });
     }
 
+    private void toggleSort() {
+        isSorted = !isSorted;
+        displayReservations();
+    }
 
+    private void displayReservations() {
+        displayReservation.removeAllViews();
 
-    private boolean hasDatePassed(String reservationTime) {
-        // Implement logic to check if the reservation date/time has passed
-        return false; // Replace this with actual date comparison logic
+        List<DiningInfo> displayList = new ArrayList<>(reservationList);
+
+        if (isSorted) {
+            // Sort in descending order by date
+            displayList.sort((r1, r2) -> parseDate(r2.getTime()).compareTo(parseDate(r1.getTime())));
+        }
+
+        for (DiningInfo reservation : displayList) {
+            View reservationView = getLayoutInflater().inflate(R.layout.dining_reservation, null);
+
+            TextView location = reservationView.findViewById(R.id.restaurant_location);
+            TextView name = reservationView.findViewById(R.id.restaurant_name);
+            TextView time = reservationView.findViewById(R.id.restaurant_time);
+            TextView website = reservationView.findViewById(R.id.restaurant_website);
+
+            location.setText("Location: " + reservation.getLocation());
+            name.setText("Name: " + reservation.getName());
+            time.setText("Time: " + reservation.getTime());
+            website.setText("Website: " + reservation.getWebsite());
+
+            // Check if the reservation date has passed and update the color accordingly
+            if (hasDatePassed(reservation.getTime())) {
+                location.setTextColor(Color.RED);
+                name.setTextColor(Color.RED);
+                time.setTextColor(Color.RED);
+                website.setTextColor(Color.RED);
+            }
+
+            displayReservation.addView(reservationView);
+        }
+        toggleSortButton.setText(isSorted ? "Unsort" : "Sort by Date");
     }
 
 
+    private boolean hasDatePassed(String reservationTime) {
+        Date reservationDate = parseDate(reservationTime);
+        return reservationDate != null && reservationDate.before(new Date());
+    }
+
+    private Date parseDate(String reservationTime) {
+        try {
+            return dateFormat.parse(reservationTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date(0); // Return an early date if parsing fails
+        }
+    }
 
 
 }
