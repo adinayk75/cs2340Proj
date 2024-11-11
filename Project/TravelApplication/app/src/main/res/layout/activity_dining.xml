@@ -36,11 +36,21 @@
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold" />
+    <Button
+        android:id="@+id/toggleSortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView3"
+        android:textSize="30px"
+        android:text="Sort by Date"
+
+        android:layout_alignParentEnd="true"/>
 
   <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_below="@+id/textView3"
+      android:layout_below="@+id/toggleSortButton"
+      android:layout_above="@id/bottomNavigationView"
       android:layout_marginTop="16dp">
 
       <LinearLayout
