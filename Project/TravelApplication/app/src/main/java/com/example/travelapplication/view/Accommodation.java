@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -30,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Accommodation extends AppCompatActivity {
 
@@ -97,16 +100,22 @@ public class Accommodation extends AppCompatActivity {
         setContentView(formView);
 
         submitButton.setOnClickListener(view -> {
-            String checkIn = checkInDate.getText().toString();
-            String checkOut = checkOutDate.getText().toString();
-            String loc = location.getText().toString();
-            String numRoom = numRooms.getText().toString();
-            String roomTyp = roomType.getText().toString();
+            String checkIn = checkInDate.getText().toString().trim();
+            String checkOut = checkOutDate.getText().toString().trim();
+            String loc = location.getText().toString().trim();
+            String numRoom = numRooms.getText().toString().trim();
+            String roomTyp = roomType.getText().toString().trim();
 
-
-            saveAccommodationToDatabase(checkIn, checkOut, loc, numRoom, roomTyp);
-
-            finish();
+            if (checkIn.isEmpty() || checkOut.isEmpty() || loc.isEmpty() || numRoom.isEmpty() || roomTyp.isEmpty()) {
+                Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    saveAccommodationToDatabase(checkIn, checkOut, loc, numRoom, roomTyp);
+                    finish();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Please enter a valid number for rooms.", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
     }
 
@@ -125,51 +134,55 @@ public class Accommodation extends AppCompatActivity {
     }
 
     private void displayAccommodations() {
-        // Get the current user's unique ID
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        // Create a reference to the user's specific accommodations node
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("accommodations").child(userId);
 
-        // Listen for changes to the user's accommodations data
         database.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Clear any previously displayed accommodations
-                accommodationContainer.removeAllViews();
+                List<AccommodationInfo> accommodations = new ArrayList<>();
 
-                // Loop through each accommodation and display it
+                // Collect all accommodations into a list
                 for (DataSnapshot accommodationSnapshot : snapshot.getChildren()) {
                     AccommodationInfo accommodation = accommodationSnapshot.getValue(AccommodationInfo.class);
-
                     if (accommodation != null) {
-                        // Inflate the layout for displaying each accommodation
-                        View accommodationView = getLayoutInflater().inflate(R.layout.accommodation_item, null);
-
-                        // Find the TextViews in the layout to populate with accommodation data
-                        TextView checkInView = accommodationView.findViewById(R.id.checkInView);
-                        TextView checkOutView = accommodationView.findViewById(R.id.checkOutView);
-                        TextView locationView = accommodationView.findViewById(R.id.locationView);
-                        TextView numRoomsView = accommodationView.findViewById(R.id.numRoomsView);
-                        TextView roomTypeView = accommodationView.findViewById(R.id.roomTypeView);
-
-                        // Set the accommodation data to the views
-                        checkInView.setText("Check-in: " + accommodation.getCheckInDate());
-                        checkOutView.setText("Check-out: " + accommodation.getCheckOutDate());
-                        locationView.setText("Location: " + accommodation.getLocation());
-                        numRoomsView.setText("Rooms: " + accommodation.getNumRooms());
-                        roomTypeView.setText("Room Type: " + accommodation.getRoomType());
-
-                        // Add the accommodation view to the container
-                        accommodationContainer.addView(accommodationView);
+                        accommodations.add(accommodation);
                     }
+                }
+
+                // Sort accommodations by check-in date
+                accommodations.sort((a1, a2) -> {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate date1 = LocalDate.parse(a1.getCheckInDate(), formatter);
+                    LocalDate date2 = LocalDate.parse(a2.getCheckInDate(), formatter);
+                    return date1.compareTo(date2);
+                });
+
+                // Clear and populate the container with sorted accommodations
+                accommodationContainer.removeAllViews();
+                for (AccommodationInfo accommodation : accommodations) {
+                    View accommodationView = getLayoutInflater().inflate(R.layout.accommodation_item, null);
+
+                    TextView checkInView = accommodationView.findViewById(R.id.checkInView);
+                    TextView checkOutView = accommodationView.findViewById(R.id.checkOutView);
+                    TextView locationView = accommodationView.findViewById(R.id.locationView);
+                    TextView numRoomsView = accommodationView.findViewById(R.id.numRoomsView);
+                    TextView roomTypeView = accommodationView.findViewById(R.id.roomTypeView);
+
+                    checkInView.setText("Check-in: " + accommodation.getCheckInDate());
+                    checkOutView.setText("Check-out: " + accommodation.getCheckOutDate());
+                    locationView.setText("Location: " + accommodation.getLocation());
+                    numRoomsView.setText("Rooms: " + accommodation.getNumRooms());
+                    roomTypeView.setText("Room Type: " + accommodation.getRoomType());
+
+                    accommodationContainer.addView(accommodationView);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle any errors when retrieving data
+                // Handle database error if necessary
             }
         });
     }
