@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/round_corner_background">
+
+    <TextView
+        android:id="@+id/destination_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Destination"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/start_date_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Date"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/end_date_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Date"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/duration_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Duration"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/accommodation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accommodation"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/dining_reservation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dining Reservation"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/rating_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/notes_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notes"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>
