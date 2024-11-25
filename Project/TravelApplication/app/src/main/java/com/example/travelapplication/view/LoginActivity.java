@@ -3,22 +3,17 @@ package com.example.travelapplication.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.travelapplication.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -62,7 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         // Create Account Button -> Navigate to Create Account Page
         Button createAccountButton = findViewById(R.id.createAccountButton);
         createAccountButton.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+            Intent intent =
+                    new Intent(LoginActivity.this, CreateAccountActivity.class);
             startActivity(intent);
         });
 
@@ -73,12 +69,14 @@ public class LoginActivity extends AppCompatActivity {
             String password = String.valueOf(editTextPassword.getText());
 
             if (TextUtils.isEmpty(username)) {
-                Toast.makeText(LoginActivity.this, "Enter Username", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,
+                        "Enter Username", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(LoginActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,
+                        "Enter Password", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -89,15 +87,16 @@ public class LoginActivity extends AppCompatActivity {
                             storeUserData();
 
                             // Navigate to Destination Activity
-                            Intent intent = new Intent(LoginActivity.this, Destination.class);
+                            Intent intent =
+                                    new Intent(LoginActivity.this, Destination.class);
                             startActivity(intent);
                             finish();
 
                             Toast.makeText(LoginActivity.this, "Log in successful",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,
+                                    "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     });
         });
@@ -109,7 +108,8 @@ public class LoginActivity extends AppCompatActivity {
             String uid = currentUser.getUid();
             String email = currentUser.getEmail();
 
-            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("user_mapping");
+            DatabaseReference usersRef =
+                    FirebaseDatabase.getInstance().getReference("user_mapping");
 
             // Check if the user already exists
             usersRef.child(uid).get().addOnCompleteListener(task -> {
@@ -117,9 +117,11 @@ public class LoginActivity extends AppCompatActivity {
                     // Only add user if the uid does not already exist
                     usersRef.child(uid).setValue(email).addOnCompleteListener(dbTask -> {
                         if (dbTask.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "User data saved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,
+                                    "User data saved", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Error saving user data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,
+                                    "Error saving user data", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

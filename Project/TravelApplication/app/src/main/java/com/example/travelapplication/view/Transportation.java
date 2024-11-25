@@ -19,8 +19,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.travelapplication.R;
-import com.example.travelapplication.model.AccommodationInfo;
-import com.example.travelapplication.model.DiningInfo;
 import com.example.travelapplication.model.TravelPostInfo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -60,7 +58,8 @@ public class    Transportation extends AppCompatActivity {
         });
 
         displayTravelPost = findViewById(R.id.travelPostContainer);
-        FloatingActionButton addTravelPostFloatingButton = findViewById(R.id.add_travel_post_floating_button);
+        FloatingActionButton addTravelPostFloatingButton =
+                findViewById(R.id.add_travel_post_floating_button);
         addTravelPostFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +82,8 @@ public class    Transportation extends AppCompatActivity {
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         navigationView.setSelectedItemId(R.id.transportation);
 
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView
+                .OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -136,63 +136,79 @@ public class    Transportation extends AppCompatActivity {
                 String notes = notesInput.getText().toString().trim();
 
                 if (startDate.isEmpty()) {
-                    Toast.makeText(Transportation.this, "Start date cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "Start date cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (endDate.isEmpty()) {
-                    Toast.makeText(Transportation.this, "End date cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "End date cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (destination.isEmpty()) {
-                    Toast.makeText(Transportation.this, "Destination cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "Destination cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (accommodation.isEmpty()) {
-                    Toast.makeText(Transportation.this, "Accommodation cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "Accommodation cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (diningReservation.isEmpty()) {
-                    Toast.makeText(Transportation.this, "Dining reservation cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "Dining reservation cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (rating.isEmpty()) {
-                    Toast.makeText(Transportation.this, "Rating cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "Rating cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (notes.isEmpty()) {
-                    Toast.makeText(Transportation.this, "Notes cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "Notes cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+                    SimpleDateFormat dateFormat =
+                            new SimpleDateFormat("MM-dd-yyyy", Locale.US);
                     Date start = dateFormat.parse(startDate);
                     Date end = dateFormat.parse(endDate);
 
                     if (start.after(end)) {
-                        Toast.makeText(Transportation.this, "Start date must be before end date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Transportation.this,
+                                "Start date must be before end date", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } catch (ParseException e) {
-                    Toast.makeText(Transportation.this, "Invalid date format", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Transportation.this,
+                            "Invalid date format", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                saveTravelPost(startDate, endDate, destination, accommodation, diningReservation, rating, notes);
+                saveTravelPost(startDate,
+                        endDate, destination, accommodation, diningReservation, rating, notes);
                 dialog.dismiss();
             }
         });
         dialog.show();
     }
 
-    private void saveTravelPost(String startDate, String endDate, String destination, String accommodation, String diningReservation, String rating, String notes) {
+    private void saveTravelPost(String startDate, String endDate, String destination,
+                                String accommodation, String diningReservation,
+                                String rating, String notes) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("travel").child(userId);
+        DatabaseReference database =
+                FirebaseDatabase.getInstance().getReference("travel").child(userId);
         String id = database.push().getKey();
 
         if (id != null) {
-            TravelPostInfo travelPost = new TravelPostInfo(startDate, endDate, destination, accommodation, diningReservation, rating, notes);
+            TravelPostInfo travelPost = new TravelPostInfo(startDate, endDate,
+                    destination, accommodation, diningReservation, rating, notes);
             database.child(id).setValue(travelPost);
         }
     }
 
     private void displayTravelPosts() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("travel").child(userId);
+        DatabaseReference database =
+                FirebaseDatabase.getInstance().getReference("travel").child(userId);
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -216,14 +232,17 @@ public class    Transportation extends AppCompatActivity {
 
                 displayTravelPost.removeAllViews();
                 for (TravelPostInfo travelPost : travelPostList) {
-                    View travelPostView = getLayoutInflater().inflate(R.layout.travel_post_item, null);
+                    View travelPostView =
+                            getLayoutInflater().inflate(R.layout.travel_post_item, null);
 
                     TextView destinationView = travelPostView.findViewById(R.id.destination_view);
                     TextView startDateView = travelPostView.findViewById(R.id.start_date_view);
                     TextView endDateView = travelPostView.findViewById(R.id.end_date_view);
                     TextView durationView = travelPostView.findViewById(R.id.duration_view);
-                    TextView accommodationView = travelPostView.findViewById(R.id.accommodation_view);
-                    TextView diningReservationView = travelPostView.findViewById(R.id.dining_reservation_view);
+                    TextView accommodationView =
+                            travelPostView.findViewById(R.id.accommodation_view);
+                    TextView diningReservationView =
+                            travelPostView.findViewById(R.id.dining_reservation_view);
                     TextView ratingView = travelPostView.findViewById(R.id.rating_view);
                     TextView notesView = travelPostView.findViewById(R.id.notes_view);
 
@@ -251,7 +270,8 @@ public class    Transportation extends AppCompatActivity {
                     endDateView.setText("End Date: " + travelPost.getEndDate());
                     durationView.setText("Duration: " + duration);
                     accommodationView.setText("Accommodation: " + travelPost.getAccommodation());
-                    diningReservationView.setText("Dining Reservation: " + travelPost.getDiningReservation());
+                    diningReservationView
+                            .setText("Dining Reservation: " + travelPost.getDiningReservation());
                     ratingView.setText("Rating: " + travelPost.getRating());
                     notesView.setText("Notes: " + travelPost.getNotes());
 

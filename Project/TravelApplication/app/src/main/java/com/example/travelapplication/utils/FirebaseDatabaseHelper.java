@@ -23,5 +23,7 @@ public class FirebaseDatabaseHelper {
     public DatabaseReference getDatabase() {
         return database;
     }
-    public FirebaseDatabase getFirebaseInstance() { return databaseInstance; }
+    public FirebaseDatabase getFirebaseInstance() {
+        return databaseInstance;
+    }
 }

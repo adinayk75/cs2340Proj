@@ -33,8 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +44,8 @@ public class Dining extends AppCompatActivity {
     private LinearLayout displayReservation;
     private Button toggleSortButton;
     private boolean isSorted = false;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm", Locale.getDefault());
+    private SimpleDateFormat dateFormat =
+            new SimpleDateFormat("MM-dd-yyyy HH:mm", Locale.getDefault());
     private List<DiningInfo> reservationList = new ArrayList<>();
 
 
@@ -65,7 +64,8 @@ public class Dining extends AppCompatActivity {
         displayReservation = findViewById(R.id.display_reservation);
         toggleSortButton = findViewById(R.id.toggleSortButton);
 
-        FloatingActionButton addReservationFloatingButton = findViewById(R.id.add_reservation_floating_button);
+        FloatingActionButton addReservationFloatingButton =
+                findViewById(R.id.add_reservation_floating_button);
         addReservationFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +89,8 @@ public class Dining extends AppCompatActivity {
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         navigationView.setSelectedItemId(R.id.dining);
 
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView
+                .OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -139,7 +140,9 @@ public class Dining extends AppCompatActivity {
                     saveDiningReservation(location, website, time, name);
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(Dining.this, "Location, Time, and Name are required.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dining.this,
+                            "Location, Time, and Name are required.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -149,7 +152,8 @@ public class Dining extends AppCompatActivity {
     private void saveDiningReservation(String location, String website, String time, String name) {
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("dining").child(userId);
+        DatabaseReference database =
+                FirebaseDatabase.getInstance().getReference("dining").child(userId);
         String id = database.push().getKey();
 
         if (id != null) {
@@ -161,7 +165,8 @@ public class Dining extends AppCompatActivity {
     private void loadDiningReservations() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("dining").child(userId);
+        DatabaseReference database =
+                FirebaseDatabase.getInstance().getReference("dining").child(userId);
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -180,7 +185,8 @@ public class Dining extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Dining.this, "Failed to load dining reservations", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Dining.this,
+                        "Failed to load dining reservations", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -197,11 +203,13 @@ public class Dining extends AppCompatActivity {
 
         if (isSorted) {
             // Sort in descending order by date
-            displayList.sort((r1, r2) -> parseDate(r2.getTime()).compareTo(parseDate(r1.getTime())));
+            displayList.sort((r1, r2) ->
+                    parseDate(r2.getTime()).compareTo(parseDate(r1.getTime())));
         }
 
         for (DiningInfo reservation : displayList) {
-            View reservationView = getLayoutInflater().inflate(R.layout.dining_reservation, null);
+            View reservationView =
+                    getLayoutInflater().inflate(R.layout.dining_reservation, null);
 
             TextView location = reservationView.findViewById(R.id.restaurant_location);
             TextView name = reservationView.findViewById(R.id.restaurant_name);

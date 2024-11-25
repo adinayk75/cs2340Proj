@@ -9,8 +9,10 @@ public class TravelPostInfo {
     private String rating;
     private String notes;
 
-    public TravelPostInfo() {}
-    public TravelPostInfo(String startDate, String endDate, String destination, String accommodation, String diningReservation, String rating, String notes) {
+    public TravelPostInfo() { }
+    public TravelPostInfo(String startDate, String endDate, String destination,
+                          String accommodation, String diningReservation, String rating,
+                          String notes) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.destination = destination;

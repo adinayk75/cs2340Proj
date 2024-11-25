@@ -15,7 +15,8 @@ public class AccommodationInfo {
     public AccommodationInfo() {
     }
 
-    public AccommodationInfo(String checkInDate, String checkOutDate, String location, int numRooms, String roomType) {
+    public AccommodationInfo(String checkInDate, String checkOutDate, String location,
+                             int numRooms, String roomType) {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.location = location;
