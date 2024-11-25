@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,21 +39,24 @@ public class SharedPageActivity extends AppCompatActivity {
     }
 
     private void getSharedPageData(String sharedPageId) {
-        DatabaseReference sharedPagesRef = FirebaseDatabase.getInstance().getReference("shared_pages");
+        DatabaseReference sharedPagesRef =
+                FirebaseDatabase.getInstance().getReference("shared_pages");
 
         sharedPagesRef.child(sharedPageId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Display shared page data here
+                    int i;
                 } else {
-                    Toast.makeText(SharedPageActivity.this, "No shared page found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SharedPageActivity.this,
+                            "No shared page found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("FirebaseError", "Error retrieving shared page: " + databaseError.getMessage());
+                Log.e("FirebaseError",
+                        "Error retrieving shared page: " + databaseError.getMessage());
             }
         });
     }

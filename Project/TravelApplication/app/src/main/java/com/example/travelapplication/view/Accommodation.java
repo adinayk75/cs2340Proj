@@ -3,7 +3,6 @@ package com.example.travelapplication.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,28 +105,34 @@ public class Accommodation extends AppCompatActivity {
             String numRoom = numRooms.getText().toString().trim();
             String roomTyp = roomType.getText().toString().trim();
 
-            if (checkIn.isEmpty() || checkOut.isEmpty() || loc.isEmpty() || numRoom.isEmpty() || roomTyp.isEmpty()) {
-                Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show();
+            if (checkIn.isEmpty() || checkOut.isEmpty() || loc.isEmpty() || numRoom.isEmpty()
+                    || roomTyp.isEmpty()) {
+                Toast.makeText(this,
+                        "Please fill out all fields.", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     saveAccommodationToDatabase(checkIn, checkOut, loc, numRoom, roomTyp);
                     finish();
                 } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Please enter a valid number for rooms.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please enter a valid number for rooms.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void saveAccommodationToDatabase(String checkInDate, String checkOutDate, String location, String numRooms, String roomType) {
+    private void saveAccommodationToDatabase(String checkInDate, String checkOutDate,
+                                             String location, String numRooms, String roomType) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("accommodations").child(userId);
+        DatabaseReference database = FirebaseDatabase.getInstance().
+                getReference("accommodations").child(userId);
 
         String id = database.push().getKey();
 
         if (id != null) {
-            AccommodationInfo accommodation = new AccommodationInfo(checkInDate, checkOutDate, location, Integer.parseInt(numRooms), roomType);
+            AccommodationInfo accommodation = new AccommodationInfo(checkInDate, checkOutDate,
+                    location, Integer.parseInt(numRooms), roomType);
 
             database.child(id).setValue(accommodation);
         }
@@ -135,7 +140,8 @@ public class Accommodation extends AppCompatActivity {
 
     private void displayAccommodations() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("accommodations").child(userId);
+        DatabaseReference database = FirebaseDatabase.getInstance().
+                getReference("accommodations").child(userId);
 
         database.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -145,7 +151,8 @@ public class Accommodation extends AppCompatActivity {
 
                 // Collect all accommodations into a list
                 for (DataSnapshot accommodationSnapshot : snapshot.getChildren()) {
-                    AccommodationInfo accommodation = accommodationSnapshot.getValue(AccommodationInfo.class);
+                    AccommodationInfo accommodation = accommodationSnapshot.
+                            getValue(AccommodationInfo.class);
                     if (accommodation != null) {
                         accommodations.add(accommodation);
                     }
@@ -162,7 +169,8 @@ public class Accommodation extends AppCompatActivity {
                 // Clear and populate the container with sorted accommodations
                 accommodationContainer.removeAllViews();
                 for (AccommodationInfo accommodation : accommodations) {
-                    View accommodationView = getLayoutInflater().inflate(R.layout.accommodation_item, null);
+                    View accommodationView = getLayoutInflater()
+                            .inflate(R.layout.accommodation_item, null);
 
                     TextView checkInView = accommodationView.findViewById(R.id.checkInView);
                     TextView checkOutView = accommodationView.findViewById(R.id.checkOutView);

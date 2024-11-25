@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -40,7 +39,8 @@ import java.time.temporal.ChronoUnit;
 
 public class Destination extends AppCompatActivity {
 
-    private static final String DATE_PATTERN = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/[0-9]{4}$";
+    private static final String DATE_PATTERN =
+            "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/[0-9]{4}$";
 
     private LinearLayout destinationsContainer;
 
@@ -53,7 +53,8 @@ public class Destination extends AppCompatActivity {
 
         // Inflate popup layout with data binding
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        TravelFormBinding binding = DataBindingUtil.inflate(inflater, R.layout.travel_form, null, false);
+        TravelFormBinding binding = DataBindingUtil.inflate(inflater,
+                R.layout.travel_form, null, false);
         binding.setTravelInfo(travelInfo);
 
         dialog.setContentView(binding.getRoot());
@@ -89,7 +90,8 @@ public class Destination extends AppCompatActivity {
                 String startDate = travelInfo.getEstimatedStart();
                 String endDate = travelInfo.getEstimatedEnd();
                 if (!checkDate(startDate, endDate)) {
-                    binding.estimatedEnd.setError("Ensure your end date takes place after your start date.");
+                    binding.estimatedEnd
+                            .setError("Ensure your end date takes place after your start date.");
                     isValid = false;
                 }
 
@@ -146,13 +148,21 @@ public class Destination extends AppCompatActivity {
     }
 
     public Boolean checkDate(String startDate, String endDate) {
-        if (endDate.substring(endDate.length() - 4).compareTo(startDate.substring(startDate.length() - 4)) < 0) {
+        if (endDate.substring(endDate.length() - 4)
+                .compareTo(startDate.substring(startDate.length() - 4)) < 0) {
             return false;
-        } else if ((endDate.substring(endDate.length() - 4).compareTo(startDate.substring(startDate.length() - 4)) == 0)) {
-            if ((endDate.substring(endDate.length() - 7, endDate.length() - 5).compareTo(startDate.substring(endDate.length() - 7, startDate.length() - 5)) < 0)) {
+        } else if ((endDate.substring(endDate.length() - 4)
+                .compareTo(startDate.substring(startDate.length() - 4)) == 0)) {
+            if ((endDate.substring(endDate.length() - 7, endDate.length() - 5)
+                    .compareTo(startDate.substring(endDate.length() - 7,
+                            startDate.length() - 5)) < 0)) {
                 return false;
-            } else if ((endDate.substring(endDate.length() - 7, endDate.length() - 5).compareTo(startDate.substring(endDate.length() - 7, startDate.length() - 5)) == 0)) {
-                if ((endDate.substring(0, endDate.length() - 8).compareTo(startDate.substring(endDate.length() - 7, startDate.length() - 5)) < 0)) {
+            } else if ((endDate.substring(endDate.length() - 7, endDate.length() - 5)
+                    .compareTo(startDate.substring(endDate.length() - 7,
+                            startDate.length() - 5)) == 0)) {
+                if ((endDate.substring(0, endDate.length() - 8)
+                        .compareTo(startDate.substring(endDate.length() - 7,
+                                startDate.length() - 5)) < 0)) {
                     return false;
                 }
             }
@@ -193,7 +203,8 @@ public class Destination extends AppCompatActivity {
             if (startDateStr.isEmpty()) {
                 startDate = null;
             } else {
-                startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                startDate = LocalDate.parse(startDateStr,
+                        DateTimeFormatter.ofPattern("MM/dd/yyyy"));
             }
 
             LocalDate endDate;
@@ -217,7 +228,8 @@ public class Destination extends AppCompatActivity {
             if (startDate == null && endDate != null && duration != null) {
                 // Calculate Start Date
                 startDate = endDate.minusDays(duration);
-                calculatedStartDate = startDate.format(java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                calculatedStartDate = startDate
+                        .format(java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
                 calculatedEndDate = endDateStr;
                 calculatedDuration = duration + " days";
                 showResult("Start Date is: " + calculatedStartDate);
@@ -225,7 +237,8 @@ public class Destination extends AppCompatActivity {
                 // Calculate End Date
                 endDate = startDate.plusDays(duration);
                 calculatedStartDate = startDateStr;
-                calculatedEndDate = endDate.format(java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                calculatedEndDate = endDate
+                        .format(java.time.format.DateTimeFormatter.ofPattern("MM/dd/yyyy"));
                 calculatedDuration = duration + " days";
                 showResult("End Date is: " + calculatedEndDate);
             } else if (duration == null && startDate != null && endDate != null) {
@@ -279,10 +292,13 @@ public class Destination extends AppCompatActivity {
         }
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View entryView = inflater.inflate(R.layout.destination_entry, destinationsContainer, false);
+        View entryView = inflater.inflate(R.layout.destination_entry,
+                destinationsContainer, false);
 
-        TextView destinationLocationTextView = entryView.findViewById(R.id.destinationLocationTextView);
-        TextView destinationDurationTextView = entryView.findViewById(R.id.destinationDurationTextView);
+        TextView destinationLocationTextView =
+                entryView.findViewById(R.id.destinationLocationTextView);
+        TextView destinationDurationTextView =
+                entryView.findViewById(R.id.destinationDurationTextView);
 
         destinationLocationTextView.setText("Destination: " + location);
         destinationDurationTextView.setText("Duration: " + duration);
@@ -327,7 +343,7 @@ public class Destination extends AppCompatActivity {
             startActivity(intent);
         }
 
-        logTravelButton.setOnClickListener(new View.OnClickListener(){
+        logTravelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showTravelForm();
@@ -355,7 +371,8 @@ public class Destination extends AppCompatActivity {
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         navigationView.setSelectedItemId(R.id.destination);
 
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView
+                .OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();

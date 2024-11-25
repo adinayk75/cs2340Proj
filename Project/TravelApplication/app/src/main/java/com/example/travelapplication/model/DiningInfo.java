@@ -7,7 +7,7 @@ public class DiningInfo {
     private String name;
 
     // Default constructor (needed for Firebase)
-    public DiningInfo() {}
+    public DiningInfo() { }
 
     public DiningInfo(String location, String time, String website, String name) {
         this.location = location;
