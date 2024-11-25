@@ -1,7 +1,9 @@
 package com.example.travelapplication.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,8 +27,18 @@ public class SharedPageActivity extends AppCompatActivity {
 
         String sharedPageId = getIntent().getStringExtra("sharedPageId");
 
-        // Retrieve the shared page data from Firebase using sharedPageId
         getSharedPageData(sharedPageId);
+
+        Button backToLogisticsButton = findViewById(R.id.backToLogisticsButton);
+        backToLogisticsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SharedPageActivity.this, Logistics.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
     }
 
     private void getSharedPageData(String sharedPageId) {

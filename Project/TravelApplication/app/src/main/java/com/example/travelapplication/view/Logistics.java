@@ -98,7 +98,7 @@ public class Logistics extends AppCompatActivity {
 
         // "Invite" button logic
         builder.setPositiveButton("Invite", (dialog, which) -> {
-            String username = usernameInput.getText().toString().trim();
+            String username = usernameInput.getText().toString().trim() + "@travelista.com";
             if (!username.isEmpty()) {
                 inviteUser(username);
             } else {
