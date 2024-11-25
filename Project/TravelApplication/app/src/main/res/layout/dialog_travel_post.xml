@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@drawable/round_corner_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Travel Post"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/edit_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start Date"/>
+
+    <EditText
+        android:id="@+id/edit_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="End Date"/>
+
+
+    <EditText
+        android:id="@+id/edit_destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Destination"/>
+
+
+
+    <EditText
+        android:id="@+id/edit_accommodation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Accommodations"/>
+
+    <EditText
+        android:id="@+id/edit_dining_reservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Dining Reservation"/>
+
+    <EditText
+        android:id="@+id/edit_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Rating (1-5)"/>
+
+    <EditText
+        android:id="@+id/edit_notes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Notes"/>
+
+    <Button
+        android:id="@+id/add_travel_post_button"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:text="Add Travel Post" />
+
+
+</LinearLayout>
