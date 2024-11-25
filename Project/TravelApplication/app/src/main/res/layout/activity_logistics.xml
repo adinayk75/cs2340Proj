@@ -18,6 +18,12 @@
         android:titleMarginStart="30dp"/>
 
     <Button
+        android:id="@+id/accessSharedPageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Access Shared Page" />
+
+    <Button
         android:id="@+id/logLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

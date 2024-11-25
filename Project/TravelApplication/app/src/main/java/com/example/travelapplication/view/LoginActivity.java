@@ -21,6 +21,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputEditText editTextUsername;
@@ -31,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Automatically redirect if a user is already logged in
         if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, Destination.class);
             startActivity(intent);
@@ -54,59 +59,71 @@ public class LoginActivity extends AppCompatActivity {
         editTextUsername = findViewById(R.id.username);
         editTextPassword = findViewById(R.id.password);
 
-        // Create Account Button -> Create Account Page
+        // Create Account Button -> Navigate to Create Account Page
         Button createAccountButton = findViewById(R.id.createAccountButton);
-        createAccountButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
-                startActivity(intent);
-            }
+        createAccountButton.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+            startActivity(intent);
         });
 
         Button loginButton = findViewById(R.id.loginButton);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        loginButton.setOnClickListener(view -> {
+            String username = String.valueOf(editTextUsername.getText()) + "@travelista.com";
+            String password = String.valueOf(editTextPassword.getText());
 
-                String username;
-                String password;
-                username = String.valueOf(editTextUsername.getText()) + "@travelista.com";
-                password = String.valueOf(editTextPassword.getText());
-
-                if (TextUtils.isEmpty(username)) {
-                    Toast.makeText(LoginActivity.this, "Enter Username", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(LoginActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(username, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-
-                                    Intent intent = new Intent(LoginActivity.this,
-                                            Destination.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                    Toast.makeText(LoginActivity.this, "Log in successful",
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+            if (TextUtils.isEmpty(username)) {
+                Toast.makeText(LoginActivity.this, "Enter Username", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
 
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(LoginActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            mAuth.signInWithEmailAndPassword(username, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Store user data in the database
+                            storeUserData();
+
+                            // Navigate to Destination Activity
+                            Intent intent = new Intent(LoginActivity.this, Destination.class);
+                            startActivity(intent);
+                            finish();
+
+                            Toast.makeText(LoginActivity.this, "Log in successful",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+    }
+
+    private void storeUserData() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            String email = currentUser.getEmail();
+
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("user_mapping");
+
+            // Check if the user already exists
+            usersRef.child(uid).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && !task.getResult().exists()) {
+                    // Only add user if the uid does not already exist
+                    usersRef.child(uid).setValue(email).addOnCompleteListener(dbTask -> {
+                        if (dbTask.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "User data saved", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Error saving user data", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }
     }
 }

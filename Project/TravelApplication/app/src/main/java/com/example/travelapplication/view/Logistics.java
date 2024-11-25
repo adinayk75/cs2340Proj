@@ -2,6 +2,7 @@ package com.example.travelapplication.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Button;
 
@@ -37,6 +38,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.example.travelapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,12 +54,16 @@ public class Logistics extends AppCompatActivity {
     private int allocatedDurations;
     private ArrayList<String> collaboratorsList = new ArrayList<>();
     private LinearLayout collaboratorsContainer;
+
+    // Adds a collaborator to the list and updates the UI
     private void addCollaborator(String user) {
         if (!collaboratorsList.contains(user)) {
             collaboratorsList.add(user);
             displayCollaborators();
         }
     }
+
+    // Refreshes the collaborators' display
     private void displayCollaborators() {
         collaboratorsContainer.removeAllViews();
         for (String collaborator : collaboratorsList) {
@@ -67,28 +74,29 @@ public class Logistics extends AppCompatActivity {
             collaboratorsContainer.addView(collaboratorView);
         }
     }
+
+    // Shows the invite dialog
     private void showInviteDialog() {
-        // Create an AlertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Invite Collaborator");
 
-        // Set up the input layout
+        // Dialog layout
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        // Add a TextView to prompt the username
+        // Input prompt
         TextView prompt = new TextView(this);
         prompt.setText("Enter username:");
         layout.addView(prompt);
 
-        // Add the input EditText for the username
+        // Input field
         EditText usernameInput = new EditText(this);
         usernameInput.setHint("Username");
         layout.addView(usernameInput);
 
         builder.setView(layout);
 
-        // Add an "Invite" button to the dialog
+        // "Invite" button logic
         builder.setPositiveButton("Invite", (dialog, which) -> {
             String username = usernameInput.getText().toString().trim();
             if (!username.isEmpty()) {
@@ -98,37 +106,37 @@ public class Logistics extends AppCompatActivity {
             }
         });
 
-        // Show the dialog
         builder.show();
     }
-    private void inviteUser(String username) {
-        DatabaseReference usersRef = data.getReference("users"); // Adjust the path if necessary to match your Firebase structure
 
-        usersRef.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
+    // Verifies the username in Firebase and adds to the list if valid
+    private void inviteUser(String email) {
+        DatabaseReference usersRef = data.getReference("user_mapping");
+        usersRef.orderByValue().equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean userFound = false;
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Get UID for the invited user
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        String collaboratorUid = child.getKey(); // The UID of the invited user
+                        String creatorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                // Iterate through all child snapshots to find a matching user
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    if (childSnapshot.exists()) {
-                        userFound = true;
+                        // Create shared page after inviting user
+                        createSharedPage(creatorUid, collaboratorUid);
+
+                        // Add the collaborator to the list
+                        addCollaborator(email); // You can also use UID here if needed
+                        Toast.makeText(Logistics.this, "User invited", Toast.LENGTH_SHORT).show();
                         break;
                     }
-                }
-
-                // Display message based on whether a user was found
-                if (userFound) {
-                    Toast.makeText(Logistics.this, "User invited", Toast.LENGTH_SHORT).show();
-                    addCollaborator(username); // Add the collaborator if user exists
                 } else {
                     Toast.makeText(Logistics.this, "No user found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("FirebaseError", "Error checking user: " + databaseError.getMessage());
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FirebaseError", "Error querying user_mapping: " + error.getMessage());
             }
         });
     }
@@ -138,11 +146,14 @@ public class Logistics extends AppCompatActivity {
         data = FirebaseDatabaseHelper.getInstance().getFirebaseInstance();
         durations = 0;
         allocatedDurations = 0;
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_logistics);
+
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
         navigationView.setSelectedItemId(R.id.logistics);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -152,16 +163,10 @@ public class Logistics extends AppCompatActivity {
         Button showChart = findViewById(R.id.CreateGraphButton);
         pieChart = findViewById(R.id.pieChart);
 
-        showChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPieChart();
-            }
-        });
+        showChart.setOnClickListener(v -> showPieChart());
 
-        // Logout
+        // Logout button
         Button logoutButton = findViewById(R.id.logLogout);
-
         logoutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(Logistics.this, LoginActivity.class);
@@ -169,8 +174,7 @@ public class Logistics extends AppCompatActivity {
             finish();
         });
 
-        // Navigation Bar
-
+        // Bottom navigation
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -200,25 +204,87 @@ public class Logistics extends AppCompatActivity {
         displayCollaborators();
 
         Button inviteCollaboratorsButton = findViewById(R.id.invite_collaborators_button);
+        inviteCollaboratorsButton.setOnClickListener(v -> showInviteDialog());
 
-        inviteCollaboratorsButton.setOnClickListener(new View.OnClickListener() {
+        Button sharedPageButton = findViewById(R.id.accessSharedPageButton);
+
+        sharedPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInviteDialog();
+                // Query the Firebase database asynchronously for the shared page ID
+                DatabaseReference sharedPagesRef = FirebaseDatabase.getInstance().getReference("shared_pages");
+                String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                sharedPagesRef.orderByChild("creator").equalTo(currentUserUid)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    String sharedPageId = dataSnapshot.getKey();  // or use appropriate logic to get the shared page ID
+
+                                    // Now navigate to the SharedPageActivity
+                                    Intent intent = new Intent(Logistics.this, SharedPageActivity.class);
+                                    intent.putExtra("sharedPageId", sharedPageId); // Pass the shared page ID
+                                    startActivity(intent);
+                                } else {
+                                    // No shared page created
+                                    Toast.makeText(Logistics.this, "No shared page has been created", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.e("FirebaseError", "Error retrieving shared page: " + databaseError.getMessage());
+                            }
+                        });
             }
         });
+
     }
+
+    private String getSharedPageId() {
+        DatabaseReference sharedPagesRef = FirebaseDatabase.getInstance().getReference("shared_pages");
+
+        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        final String[] sharedPageId = {""};
+
+        sharedPagesRef.orderByChild("creator").equalTo(currentUserUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    sharedPageId[0] = dataSnapshot.getKey();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("FirebaseError", "Error retrieving shared page: " + databaseError.getMessage());
+            }
+        });
+
+        return sharedPageId[0];
+    }
+
+    private void inviteUserToSharedPage(String collaboratorUid) {
+        String creatorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        createSharedPage(creatorUid, collaboratorUid);
+
+    }
+
     private void getTravelDurations() {
-        return;
     }
+
     private void showPieChart() {
         getTravelDurations();
         durations = 10;
-        allocatedDurations=20;
+        allocatedDurations = 20;
         int total = durations + allocatedDurations;
         float durationProp = 33f;
         float allocatedProp = 67f;
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+
+        ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(durationProp, "Estimated Durations"));
         entries.add(new PieEntry(allocatedProp, "Allocated Durations"));
 
@@ -227,6 +293,26 @@ public class Logistics extends AppCompatActivity {
 
         PieData data = new PieData(dataSet);
         pieChart.setData(data);
-        pieChart.invalidate(); // Refresh the chart
+        pieChart.invalidate();
+    }
+
+    private void createSharedPage(String creatorUid, String collaboratorUid) {
+        DatabaseReference sharedPagesRef = FirebaseDatabase.getInstance().getReference("shared_pages");
+
+        String sharedPageId = sharedPagesRef.push().getKey();
+
+        if (sharedPageId != null) {
+            Map<String, Object> sharedPageData = new HashMap<>();
+            sharedPageData.put("creator", creatorUid);
+            sharedPageData.put("collaborator", collaboratorUid);
+
+            sharedPagesRef.child(sharedPageId).setValue(sharedPageData).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(Logistics.this, "Shared page created successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Logistics.this, "Error creating shared page", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

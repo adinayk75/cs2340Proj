@@ -38,6 +38,7 @@
         <activity
             android:name=".view.LoginActivity"
             android:exported="false" />
+        <activity android:name=".view.SharedPageActivity" />
         <activity
             android:name=".view.SplashActivity"
             android:exported="true"
